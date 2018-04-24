@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { Input, Button, Icon, Grid, Label, Form } from "semantic-ui-react";
+import { Input, Button, Icon, Grid, Popup } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 import "./NumericInput.css";
@@ -60,31 +60,35 @@ class NumericInput extends Component {
   };
 
   handleValueChange = (e, inputProps) => {
-    const newValue = parseInt(inputProps.value);
+    let newValue = parseInt(inputProps.value);
+    if (isNaN(newValue)) {
+      newValue = inputProps.value;
+    }
+
     this.setState({ value: newValue }, () => this.setButtonDisabledStates());
   };
 
   render() {
     const { value, isUpDisabled, isDownDisabled, visible } = this.state;
-    const { min, max, defaultValue, placeholder } = this.props;
+    const { min, max, defaultValue, placeholder, label } = this.props;
 
     let valueIsBad = value < min || value > max;
-    let valueIsBadMessage = ''
-    if(value < min){
-      valueIsBad = true
-      valueIsBadMessage = valueIsBadMessage + 'Minimum value is ' + min
+    let valueIsBadMessage = "";
+    if (value < min) {
+      valueIsBad = true;
+      valueIsBadMessage = valueIsBadMessage + "Minimum value is " + min;
     }
-    if(value > max){
-      valueIsBad = true
-      valueIsBadMessage = valueIsBadMessage + 'Maximum value is ' + max
+    if (value > max) {
+      valueIsBad = true;
+      valueIsBadMessage = valueIsBadMessage + "Maximum value is " + max;
     }
 
     return (
       <div>
         <div className="row">
           <div className="input-row">
-            <Form.Field>
-              <Input
+            <Popup
+              trigger={<Input
                 error={valueIsBad}
                 size="mini"
                 placeholder={placeholder ? placeholder : 0}
@@ -110,13 +114,11 @@ class NumericInput extends Component {
                     </Button>
                   </div>
                 }
-              />
-              {valueIsBad ? (
-              <Label className='numeric-input-error-label' basic color="red" pointing="left">
-                {valueIsBadMessage}
-              </Label>
-              ) : null}
-            </Form.Field>
+              />}
+              content={valueIsBadMessage}
+              open={valueIsBad}
+              style={{borderColor:'red'}}
+            />
           </div>
         </div>
       </div>
@@ -129,7 +131,8 @@ NumericInput.propTypes = {
   max: PropTypes.number,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.number,
-  value: PropTypes.number
+  value: PropTypes.number,
+  label: PropTypes.string
 };
 
 export default NumericInput;
