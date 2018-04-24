@@ -25,3 +25,9 @@
 .numeric-input .button-bottom {
   border-top-right-radius: 0px !important;
 }
+
+.numeric-input-error-label {
+  /* We need to move the whole thing left otherwise it will overlap the buttons */
+  margin-left:35px !important;
+  margin-top: 7px !important;
+}

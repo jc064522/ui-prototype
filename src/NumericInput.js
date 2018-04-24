@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { Input, Button, Icon, Grid } from "semantic-ui-react";
+import { Input, Button, Icon, Grid, Label, Form } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 import "./NumericInput.css";
@@ -67,38 +67,56 @@ class NumericInput extends Component {
   render() {
     const { value, isUpDisabled, isDownDisabled, visible } = this.state;
     const { min, max, defaultValue, placeholder } = this.props;
-    const valueIsBad = value < min || value > max;
+
+    let valueIsBad = value < min || value > max;
+    let valueIsBadMessage = ''
+    if(value < min){
+      valueIsBad = true
+      valueIsBadMessage = valueIsBadMessage + 'Minimum value is ' + min
+    }
+    if(value > max){
+      valueIsBad = true
+      valueIsBadMessage = valueIsBadMessage + 'Maximum value is ' + max
+    }
+
     return (
       <div>
         <div className="row">
           <div className="input-row">
-            <Input
-              error={valueIsBad}
-              size="mini"
-              placeholder={placeholder ? placeholder : 0}
-              className="numeric-input"
-              value={value}
-              defaultValue={defaultValue ? defaultValue : null}
-              onChange={this.handleValueChange}
-              action={
-                <div>
-                  <Button
-                    className="button-top"
-                    onClick={this.handleUp}
-                    disabled={isUpDisabled}
-                  >
-                    <Icon name="angle up" />
-                  </Button>
-                  <Button
-                    className="button-bottom"
-                    onClick={this.handleDown}
-                    disabled={isDownDisabled}
-                  >
-                    <Icon name="angle down" />
-                  </Button>
-                </div>
-              }
-            />
+            <Form.Field>
+              <Input
+                error={valueIsBad}
+                size="mini"
+                placeholder={placeholder ? placeholder : 0}
+                className="numeric-input"
+                value={value}
+                defaultValue={defaultValue ? defaultValue : null}
+                onChange={this.handleValueChange}
+                action={
+                  <div>
+                    <Button
+                      className="button-top"
+                      onClick={this.handleUp}
+                      disabled={isUpDisabled}
+                    >
+                      <Icon name="angle up" />
+                    </Button>
+                    <Button
+                      className="button-bottom"
+                      onClick={this.handleDown}
+                      disabled={isDownDisabled}
+                    >
+                      <Icon name="angle down" />
+                    </Button>
+                  </div>
+                }
+              />
+              {valueIsBad ? (
+              <Label className='numeric-input-error-label' basic color="red" pointing="left">
+                {valueIsBadMessage}
+              </Label>
+              ) : null}
+            </Form.Field>
           </div>
         </div>
       </div>
