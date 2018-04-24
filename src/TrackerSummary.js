@@ -66,7 +66,10 @@ class TrackerSummary extends Component {
             <Grid.Column width={3}>
               <Form>
                 <Form.Checkbox inline label="Enabled?" checked={tracker.enabled} toggle />
-                <NumericInput min={0} max={99} value={tracker.priority} />
+                <Form.Field>
+                  <label>Priority</label>
+                  <NumericInput min={0} max={99} value={tracker.priority} />
+                </Form.Field>
               </Form>
             </Grid.Column>
           </Grid.Row>

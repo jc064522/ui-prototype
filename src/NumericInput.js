@@ -90,7 +90,7 @@ class NumericInput extends Component {
             <Popup
               trigger={<Input
                 error={valueIsBad}
-                size="mini"
+                size="tiny"
                 placeholder={placeholder ? placeholder : 0}
                 className="numeric-input"
                 value={value}

@@ -2,12 +2,16 @@
   float: left;
 }
 
+.input-row {
+  width:90px;
+}
+
 .input-row input{
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
 }
 .numeric-input {
-  width: 40px;
+  width: 55px;
   border-right-color: rgba(34, 36, 38, 0.15) !important;
 }
 
