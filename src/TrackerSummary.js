@@ -12,6 +12,8 @@ import {
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
+import NumericInput from './NumericInput'
+
 const priorityOptions = [
   { key: "1", value: "1", text: "1" },
   { key: "2", value: "2", text: "2" },
@@ -64,7 +66,8 @@ class TrackerSummary extends Component {
             <Grid.Column width={3}>
               <Form>
                 <Form.Checkbox inline label="Enabled?" checked={tracker.enabled} toggle />
-                <Form.Dropdown
+                <NumericInput min={0} max={99} value={tracker.priority} />
+                {/* <Form.Dropdown
                   inline
                   compact
                   label="Priority"
@@ -73,7 +76,7 @@ class TrackerSummary extends Component {
                   value={priorityOptions[tracker.priority]}
                   // defaultValue={tracker.priority}
                   options={priorityOptions}
-                />
+                /> */}
               </Form>
             </Grid.Column>
           </Grid.Row>

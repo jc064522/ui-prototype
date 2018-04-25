@@ -63,6 +63,7 @@ class NumericInput extends Component {
         <div className="row">
           <div className="input-row">
             <Input
+              size='mini'
               placeholder={placeholder ? placeholder : 0}
               className="numeric-input"
               value={value}
