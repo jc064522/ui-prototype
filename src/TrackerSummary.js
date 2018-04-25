@@ -42,7 +42,7 @@ class TrackerSummary extends Component {
 
     return (
       <Segment>
-        <Label attached="top left">
+        <Label attached="top">
           {tracker.name}
         </Label>
 
@@ -52,10 +52,10 @@ class TrackerSummary extends Component {
               Created tasks up to <h3>{tracker.trackerMs}</h3>
             </Grid.Column>
             <Grid.Column width={4}>
-              Of it's total range this is <h3>{tracker.trackerPercentage}%</h3>
+              Of its total range this is <h3>{tracker.trackerPercentage}%</h3>
             </Grid.Column>
             <Grid.Column width={4}>
-              It last polled the stream <h3>6.1 hours ago</h3>
+              It last polled the stream <h3>{tracker.lastPollAge} hours ago</h3>
             </Grid.Column>
             <Grid.Column width={1}>
               <div className="headerDivider" />
@@ -63,14 +63,15 @@ class TrackerSummary extends Component {
 
             <Grid.Column width={3}>
               <Form>
-                <Form.Checkbox inline label="Enabled" toggle />
+                <Form.Checkbox inline label="Enabled?" checked={tracker.enabled} toggle />
                 <Form.Dropdown
                   inline
                   compact
                   label="Priority"
                   labeled
                   button
-                  defaultValue={priorityOptions[0].value}
+                  value={priorityOptions[tracker.priority]}
+                  // defaultValue={tracker.priority}
                   options={priorityOptions}
                 />
               </Form>
