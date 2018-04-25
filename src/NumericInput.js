@@ -20,7 +20,7 @@ class NumericInput extends Component {
   }
 
   setButtonDisabledStates = () => {
-    if(this.props.max){
+    if(typeof this.props.max !== "undefined"){
       if(this.state.value >= this.props.max){
         this.setState({isUpDisabled: true})
       }
@@ -29,7 +29,7 @@ class NumericInput extends Component {
       }
     }
 
-    if(this.props.min){
+    if(typeof this.props.min !== "undefined"){
       if(this.state.value <= this.props.min){
         this.setState({isDownDisabled: true})
       }
