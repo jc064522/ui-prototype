@@ -8,48 +8,71 @@ import "./NumericInput.css";
 
 class NumericInput extends Component {
   componentWillMount () {
-    const placeholder = this.props.placeholder ? this.props.placeholder : 0
-    this.setState({placeholder})
-
-    if(this.props.defaultValue){
-      this.setState({ defaultValue: this.props.defaultValue });
-    }
-
     if(this.props.value) {
       this.setState({ value: this.props.value });
-    } 
+    }
+
+    this.setState({
+      isDownDisabled: false,
+      isUpDisabled: false
+    }, () => this.setButtonDisabledStates())
+
+  }
+
+  setButtonDisabledStates = () => {
+    if(this.props.max){
+      if(this.state.value >= this.props.max){
+        this.setState({isUpDisabled: true})
+      }
+      else {
+        this.setState({isUpDisabled: false})
+      }
+    }
+
+    if(this.props.min){
+      if(this.state.value <= this.props.min){
+        this.setState({isDownDisabled: true})
+      }
+      else {
+        this.setState({isDownDisabled: false})
+      }
+    }
+  }
+
+  getFallBackValue(){
+    let noValueFallback = this.props.defaultValue ? this.props.defaultValue : this.props.placeholder
+    noValueFallback = noValueFallback ? noValueFallback : 0
+    return noValueFallback
   }
 
   handleUp = (e, upButtonProps) => {
-    const noValueFallback = this.state.defaultValue ? this.state.defaultValue : this.state.placeholder
-    const newValue = (this.state.value ? this.state.value : noValueFallback) + 1
-    this.setState({ value: newValue });
-  };
+    const newValue = (this.state.value ? this.state.value : this.getFallBackValue()) + 1
+    this.setState({ value: newValue }, () => this.setButtonDisabledStates());
+  }
   
   handleDown = (e, downButtonProps) => {
-    const noValueFallback = this.state.defaultValue ? this.state.defaultValue : this.state.placeholder
-    const newValue = (this.state.value ? this.state.value : noValueFallback) - 1
-    this.setState({ value: newValue });
-  };
+    const newValue = (this.state.value ? this.state.value : this.getFallBackValue()) - 1
+    this.setState({ value: newValue }, () => this.setButtonDisabledStates());
+  }
 
   render() {
-    const { min, max, value, defaultValue, placeholder } = this.state;
-
+    const { value, isUpDisabled, isDownDisabled } = this.state;
+    const { min, max, defaultValue, placeholder } = this.props
     return (
       <div>
         <div className="row">
           <div className="input-row">
             <Input
-              placeholder={placeholder}
+              placeholder={placeholder ? placeholder : 0}
               className="numeric-input"
               value={value}
               defaultValue={defaultValue ? defaultValue : null}
               action={
                 <div>
-                  <Button className="button-top" onClick={this.handleUp}>
+                  <Button className="button-top" onClick={this.handleUp} disabled={isUpDisabled}>
                     <Icon name="angle up" />
                   </Button>
-                  <Button className="button-bottom" onClick={this.handleDown}>
+                  <Button className="button-bottom" onClick={this.handleDown} disabled={isDownDisabled}>
                     <Icon name="angle down" />
                   </Button>
                 </div>
@@ -66,7 +89,8 @@ NumericInput.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   placeholder: PropTypes.string,
-  defaultValue: PropTypes.number
+  defaultValue: PropTypes.number,
+  value: PropTypes.number
 };
 
 export default NumericInput;
