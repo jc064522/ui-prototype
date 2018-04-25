@@ -66,6 +66,11 @@
   padding-bottom: 1px !important;
 }
 
+.trackers-container {
+  margin: 0 auto !important;
+  width: 900px;
+}
+
 
 
 .headerDivider {
