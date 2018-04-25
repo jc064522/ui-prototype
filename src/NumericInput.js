@@ -21,15 +21,14 @@ class NumericInput extends Component {
   }
 
   handleUp = (e, upButtonProps) => {
-    const noValue = this.state.defaultValue ? this.state.defaultValue : this.state.placeholder
-    const newValue = this.state.value ? this.state.value + 1 : noValue + 1 
+    const noValueFallback = this.state.defaultValue ? this.state.defaultValue : this.state.placeholder
+    const newValue = (this.state.value ? this.state.value : noValueFallback) + 1
     this.setState({ value: newValue });
   };
   
   handleDown = (e, downButtonProps) => {
-
-    const noValue = this.state.defaultValue ? this.state.defaultValue : this.state.placeholder
-    const newValue = this.state.value ? this.state.value - 1 : noValue - 1 
+    const noValueFallback = this.state.defaultValue ? this.state.defaultValue : this.state.placeholder
+    const newValue = (this.state.value ? this.state.value : noValueFallback) - 1
     this.setState({ value: newValue });
   };
 
