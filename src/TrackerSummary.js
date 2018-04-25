@@ -67,16 +67,6 @@ class TrackerSummary extends Component {
               <Form>
                 <Form.Checkbox inline label="Enabled?" checked={tracker.enabled} toggle />
                 <NumericInput min={0} max={99} value={tracker.priority} />
-                {/* <Form.Dropdown
-                  inline
-                  compact
-                  label="Priority"
-                  labeled
-                  button
-                  value={priorityOptions[tracker.priority]}
-                  // defaultValue={tracker.priority}
-                  options={priorityOptions}
-                /> */}
               </Form>
             </Grid.Column>
           </Grid.Row>
