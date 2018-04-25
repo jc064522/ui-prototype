@@ -1,0 +1,54 @@
+/* .numeric-input-buttons {
+  display: block;
+} */
+
+/* .numeric-input {
+  display: block;
+} */
+
+
+.row div {
+  float: left;
+}
+
+.input-row input{
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.numeric-input {
+  width: 75px;
+  border-right-color: rgba(34, 36, 38, 0.15) !important;
+}
+
+/* .input-row{
+  line-height: 30px;
+  height: 30px;
+} */
+
+/* button {
+  background-color: #4f4f4f;
+  border-radius: 0;
+  color: white;
+  padding: 0 4px;
+} */
+
+/* .buttons {
+  width: 30px;
+} */
+
+.numeric-input button {
+  height: 20px !important;
+  /* width: 30px; */
+  padding: 0px 0px 0px 9px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  /* border: 1px black; */
+}
+
+.numeric-input .button-top {
+  border-bottom-right-radius: 0px !important;
+}
+
+.numeric-input .button-bottom {
+  border-top-right-radius: 0px !important;
+}
