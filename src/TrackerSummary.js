@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import moment from 'moment'
 import "./App.css";
 import {
   Grid,
@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-import NumericInput from "./NumericInput";
+import NumericInput from "./components/NumericInput/";
 import './TrackerSummary.css'
 
 class TrackerSummary extends Component {
@@ -27,15 +27,29 @@ class TrackerSummary extends Component {
     this.setState({ activeIndex: newIndex });
     this.setState({ accordionHeader: newHeader });
   };
+
   render() {
     const { activeIndex, accordionHeader } = this.state;
     const tracker = this.props.tracker;
+
+    const startMoment = moment().subtract(1, 'days')
+    const trackerMoment = moment(tracker.trackerMs)
+    const now = moment()
+
+    let percentageComplete = 0
+    // If the last time the tracker created a batch of work is before our start moment
+    // then we will report 0% complete for this view.
+    if(startMoment.isBefore(trackerMoment)){
+      const completeMillis = startMoment.diff(trackerMoment)
+      const totalMillis = trackerMoment.diff(now) + completeMillis
+      percentageComplete = (completeMillis / totalMillis)*100
+    }
 
     return (
       <Segment>
 
         <Label attached="top">{tracker.name}</Label>
-        <Progress percent={29} color="orange" size="small" />
+        <Progress percent={percentageComplete} color="green" indicating size="small" />
 
         <Grid>
           <Grid.Row>

@@ -1,10 +1,10 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import NumericInput from "../src/NumericInput";
+import NumericInput from "./NumericInput";
 import { Input } from "semantic-ui-react";
 
-import "./index.css";
+import "./NumericInput.css";
 
 storiesOf("NumericInput", module)
   .add("basic", () => (
