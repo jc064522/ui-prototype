@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-import NumericInput from "./components/NumericInput/";
+import NumericInput from "./components/NumericInput/NumericInput";
 import './TrackerSummary.css'
 
 class TrackerSummary extends Component {
@@ -36,7 +36,8 @@ class TrackerSummary extends Component {
     const trackerMoment = moment(tracker.trackerMs)
     const now = moment()
 
-    let percentageComplete = 0
+    // TODO/FIXME: This is set to 1 because 0 is green. Semantis UI bug?
+    let percentageComplete = 1
     // If the last time the tracker created a batch of work is before our start moment
     // then we will report 0% complete for this view.
     if(startMoment.isBefore(trackerMoment)){

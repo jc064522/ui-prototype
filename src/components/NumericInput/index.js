@@ -1,3 +1,1 @@
-import NumericInput from 'NumericInput'
-
-export default NumericInput
+export { default as NumericInput} from './NumericInput'
