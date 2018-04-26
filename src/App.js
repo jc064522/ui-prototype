@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from 'moment'
 import "./App.css";
 import { Grid, Segment, List, Accordion, Form, Label } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
@@ -8,7 +9,7 @@ import TrackerSummary from "./TrackerSummary";
 const dummyTrackers = [
   {
     name: "FANTASTIC_PIPELINE_ALL_CAPS_FOR_SOME_REASON",
-    trackerMs: "2018-01-02 12:34:34",
+    trackerMs: moment().subtract(4, 'hours').toISOString(),
     trackerPercentage: 76,
     lastPollAge:6.1,
     completed:false,
@@ -17,7 +18,7 @@ const dummyTrackers = [
   },
   {
     name: "FANTASTIC_PIPELINE_2",
-    trackerMs: "2018-04-02 12:34:34",
+    trackerMs: moment().subtract(3, 'days').toISOString(),
     trackerPercentage: 1,
     lastPollAge:1,
     completed:false,
@@ -26,7 +27,7 @@ const dummyTrackers = [
   },
   {
     name: "FANTASTIC_PIPELINE_3",
-    trackerMs: "2018-01-02 12:34:34",
+    trackerMs: moment().subtract(18, 'hours').toISOString(),
     trackerPercentage: 100,
     lastPollAge:300,
     completed:true,
@@ -48,7 +49,8 @@ const sortDirectionOptions = [
 
 
 class App extends Component {
-  state = { showCompleted: false, orderBy: 'trackerMs', sortDirection:'asc'}
+  // Set up some defaults
+  state = { showCompleted: false, orderBy: 'trackerMs', sortDirection:'desc'}
 
   handleShowCompletedToggle = (e, toggleProps) => {
     this.setState({showCompleted: toggleProps.checked})
