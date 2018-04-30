@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import moment from 'moment'
-import "./App.css";
 import {
   Grid,
   Segment,
@@ -13,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-import NumericInput from "./components/NumericInput/NumericInput";
+import NumericInput from "components/NumericInput";
 import './TrackerSummary.css'
 
 class TrackerSummary extends Component {
@@ -131,4 +130,5 @@ class TrackerSummary extends Component {
 TrackerSummary.propTypes = {
   tracker: PropTypes.object.isRequired
 };
+
 export default TrackerSummary;

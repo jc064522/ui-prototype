@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import moment from "moment";
-import "./App.css";
-import { Grid, Segment, List, Accordion, Form, Label } from "semantic-ui-react";
+import "./Graph.css";
+import {
+  Grid,
+  Segment,
+  List,
+  Accordion,
+  Form,
+  Label,
+  Button
+} from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import TrackerSummary from "./TrackerSummary";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+
+import Tracker from './Tracker'
 
 const dummyTrackers = [
   {
@@ -60,7 +69,7 @@ const sortDirectionOptions = [
   { key: "desc", value: "desc", text: "Descending" }
 ];
 
-class App extends Component {
+class Graph extends Component {
   // Set up some defaults
   state = { showCompleted: false, orderBy: "trackerMs", sortDirection: "desc" };
 
@@ -89,22 +98,21 @@ class App extends Component {
           </Grid.Column>
           <Grid.Column width={4} />
           <Grid.Column width={8}>
-          <DatePicker
-        selected={this.state.startDate}
-        onChange={this.handleChange}
-    />
-          <DatePicker
-                  // selected={this.state.startDate}
-                  // onChange={this.handleChange}
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  timeIntervals={15}
-                  dateFormat="LLL"
-                  timeCaption="time"
-                />
+            <DatePicker
+              selected={this.state.startDate}
+              onChange={this.handleChange}
+            />
+            <DatePicker
+              // selected={this.state.startDate}
+              // onChange={this.handleChange}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="LLL"
+              timeCaption="time"
+            />
             <Form>
               <Form.Group inline>
-              
                 <Form.Checkbox
                   inline
                   label="Show completed?"
@@ -129,7 +137,6 @@ class App extends Component {
                   value={sortDirection}
                   onChange={this.handleSortDirectionChange}
                 />
-
               </Form.Group>
             </Form>
           </Grid.Column>
@@ -167,7 +174,8 @@ class App extends Component {
                   }
                 })
                 .map((tracker, i) => {
-                  return <TrackerSummary tracker={tracker} key={i} />;
+                  return <Tracker tracker={tracker} key={i} />;
+                  return null
                 })}
             </Segment.Group>
           </Grid.Column>
@@ -177,4 +185,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Graph;
