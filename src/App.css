@@ -81,3 +81,7 @@
   /* right:249px; */
   top:10px; 
 }
+
+.react-datepicker__time-list {
+  padding-left: 0px !important;
+}
