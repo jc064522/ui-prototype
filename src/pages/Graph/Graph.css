@@ -85,3 +85,20 @@
 .react-datepicker__time-list {
   padding-left: 0px !important;
 }
+
+.tracker-table .td {
+  padding:0px !important;
+}
+
+.tracker-table .progress {
+  margin:0px !important;
+  padding: 0px !important;
+}
+
+.tracker-table .progress-column .progress {
+  background-color: transparent;
+}
+
+.tracker-table .name-column .label{
+  width: 100% !important;
+}

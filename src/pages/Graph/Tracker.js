@@ -8,7 +8,8 @@ import {
   Accordion,
   Form,
   Label,
-  Progress
+  Progress,
+  Table
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
@@ -46,15 +47,40 @@ class Tracker extends Component {
     }
 
     return (
-      <div>
-        <Segment>
+      <Table.Row className="graph">
+          <Table.Cell className="name-column" width={7} >
+            <Label >{tracker.name}</Label>
+          </Table.Cell>
+          <Table.Cell className="priority-column"  width={1}>
+            <Label circular color="green">{tracker.priority}</Label>
+          </Table.Cell>
+          <Table.Cell className="progress-column" width={8}>
+            <Progress
+              percent={percentageComplete}
+              indicating
+            />
+            </Table.Cell>
+
+
+
+        {/* <Grid>
+          <Grid.Column width={7}>
+            <Label >{tracker.name}</Label>
+          </Grid.Column>
+          <Grid.Column width={1} className="priority-column">
+            <Label circular color="green">{tracker.priority}</Label>
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Progress
+              percent={percentageComplete}
+              // color="green"
+              indicating
+              // size="small"
+            />
+          </Grid.Column>
+        </Grid> */}
+        {/* <Segment>
           <Label attached="top">{tracker.name}</Label>
-          <Progress
-            percent={percentageComplete}
-            color="green"
-            indicating
-            size="small"
-          />
 
           <Grid>
             <Grid.Row>
@@ -131,8 +157,8 @@ class Tracker extends Component {
               </Accordion>
             </Grid.Row>
           </Grid>
-        </Segment>
-      </div>
+        </Segment> */}
+      </Table.Row>
     );
   }
 }
