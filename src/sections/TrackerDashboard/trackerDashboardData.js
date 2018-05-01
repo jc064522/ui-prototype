@@ -34,7 +34,8 @@ export const UPDATE_TRACKERS = 'trackerDashboard/UPDATE_TRACKERS'
 const fetch = window.fetch
 
 const initialState = {
-  trackers: []
+  trackers: [],
+  isLoading: false
 }
 
 export default (state = initialState, action) => {

@@ -15,4 +15,6 @@
  */
 
 import TrackerDashboard from './TrackerDashboard'
+
+export { default as trackerDashboard } from './trackerDashboardData'
 export default TrackerDashboard

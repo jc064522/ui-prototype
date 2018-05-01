@@ -18,13 +18,14 @@ import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 // import { reducer as formReducer } from 'redux-form'
 import { authenticationReducer as authentication, authorisationReducer as authorisation } from 'stroom-js'
-
+import {trackerDashboard} from 'sections/TrackerDashboard'
 import config from './config'
 
 export default combineReducers({
   routing: routerReducer,
   authentication,
   authorisation,
-  config
+  config,
+  trackerDashboard
   // form: formReducer
 })

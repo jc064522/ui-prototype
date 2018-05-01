@@ -15,16 +15,12 @@
  */
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import moment from 'moment'
 
-import {
-  Grid,
-  Form,
-  Label,
-  Table,
-  Progress
-} from 'semantic-ui-react'
+import { Grid, Form, Label, Table, Progress, Dimmer, Loader } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
 import './TrackerDashboard.css'
@@ -98,8 +94,16 @@ class TrackerDashboard extends Component {
     })
   };
 
+  handleFilterByNameChange = (e, inputProps) => {
+    console.log(inputProps.value)
+    // TODO show Loader over the table
+    // TODO submit query
+  }
+
   render () {
     const { column, data, direction, showCompleted } = this.state
+
+    const { dimTable } = this.props
 
     return (
       <div className='App'>
@@ -114,12 +118,23 @@ class TrackerDashboard extends Component {
                   toggle
                   onChange={this.handleShowCompletedToggle}
                 />
+                <Form.Input
+                  icon='search'
+                  iconPosition='left'
+                  placeholder='Filter by name...'
+                  onChange={this.handleFilterByNameChange}
+                />
               </Form.Group>
             </Form>
           </Grid.Column>
           <Grid.Column width={4} />
 
           <Grid.Column width={16}>
+
+            <Dimmer active={dimTable} inverted>
+              <Loader size='medium' />
+            </Dimmer>
+
             <Table sortable basic='very' className='tracker-table'>
               <Table.Header>
                 <Table.Row>
@@ -143,6 +158,7 @@ class TrackerDashboard extends Component {
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
+
               <Table.Body>
                 {data
                   .filter(tracker => {
@@ -154,10 +170,18 @@ class TrackerDashboard extends Component {
                   })
                   .map(({ name, priority, progress }) => (
                     <Table.Row key={name}>
-                      <Table.Cell className='name-column' textAlign='right' width={7}>
+                      <Table.Cell
+                        className='name-column'
+                        textAlign='right'
+                        width={7}
+                      >
                         {name}
                       </Table.Cell>
-                      <Table.Cell className='priority-column' textAlign='center' width={1}>
+                      <Table.Cell
+                        className='priority-column'
+                        textAlign='center'
+                        width={1}
+                      >
                         <Label circular color='green'>
                           {priority}
                         </Label>
@@ -176,4 +200,15 @@ class TrackerDashboard extends Component {
   }
 }
 
-export default TrackerDashboard
+const mapStateToProps = state => ({
+  dimTable: state.trackerDashboard.isLoading
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+
+}, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrackerDashboard)
