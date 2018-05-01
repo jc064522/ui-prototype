@@ -26,6 +26,12 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "devDependencies": {
-    "@storybook/react": "^3.4.2"
+    "@storybook/react": "^3.4.2",
+    "babel-eslint": "^8.2.3",
+    "standard": "^11.0.1",
+    "storybook-react-router": "^1.0.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   }
 }

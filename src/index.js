@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { ConnectedRouter } from "react-router-redux";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'react-router-redux'
 
-import Routes from "startup/Routes";
-import registerServiceWorker from "startup/registerServiceWorker";
-import store from "startup/store";
+import Routes from 'startup/Routes'
+import registerServiceWorker from 'startup/registerServiceWorker'
+import store from 'startup/store'
 import { history } from 'startup/middleware'
 
 ReactDOM.render(
@@ -30,7 +30,7 @@ ReactDOM.render(
       <Routes />
     </ConnectedRouter>
   </Provider>,
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)
 
-registerServiceWorker();
+registerServiceWorker()

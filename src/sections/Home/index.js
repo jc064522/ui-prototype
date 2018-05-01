@@ -16,8 +16,7 @@
 
 import Home from './Home'
 
-export default Home 
-
+export default Home
 
 // import React from "react";
 

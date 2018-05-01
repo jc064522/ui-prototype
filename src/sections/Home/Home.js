@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 class Home extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h1>Welcome to Stroom UI components</h1>
@@ -28,16 +28,23 @@ class Home extends Component {
         <h2>Prototypes</h2>
         <ul>
           <li>
-            <Link to="/prototypes/original_list">Original List</Link>
+            <Link to='/prototypes/original_list'>Original List</Link>
           </li>
           <li>
-            <Link to="/prototypes/graph">Graph</Link>
+            <Link to='/prototypes/graph'>Graph</Link>
+          </li>
+        </ul>
+        <h2>Storybook</h2>
+        <p>If Storybook is running you can go there to look at the components</p>
+        <ul>
+          <li>
+            <a href='http://localhost:9001'>Storybook</a>
           </li>
         </ul>
         <hr />
       </div>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

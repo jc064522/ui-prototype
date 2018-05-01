@@ -14,70 +14,61 @@
  * limitations under the License.
  */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import moment from "moment";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
 import {
-  Grid,
-  Segment,
-  List,
-  Accordion,
-  Form,
   Label,
   Progress,
   Table
-} from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
+} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 
-import NumericInput from "components/NumericInput";
-import "./Tracker.css";
+import './Tracker.css'
 
 class Tracker extends Component {
-  state = { activeIndex: 1, accordionHeader: "MORE" };
+  state = { activeIndex: 1, accordionHeader: 'MORE' }
 
   handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
-    const newHeader = activeIndex === index ? "MORE" : "LESS";
-    this.setState({ activeIndex: newIndex });
-    this.setState({ accordionHeader: newHeader });
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+    const newHeader = activeIndex === index ? 'MORE' : 'LESS'
+    this.setState({ activeIndex: newIndex })
+    this.setState({ accordionHeader: newHeader })
   };
 
-  render() {
-    const { activeIndex, accordionHeader } = this.state;
-    const tracker = this.props.tracker;
+  render () {
+    const tracker = this.props.tracker
 
-    const startMoment = moment().subtract(1, "days");
-    const trackerMoment = moment(tracker.trackerMs);
-    const now = moment();
+    const startMoment = moment().subtract(1, 'days')
+    const trackerMoment = moment(tracker.trackerMs)
+    const now = moment()
 
     // TODO/FIXME: This is set to 1 because 0 is green. Semantis UI bug?
-    let percentageComplete = 1;
+    let percentageComplete = 1
     // If the last time the tracker created a batch of work is before our start moment
     // then we will report 0% complete for this view.
     if (startMoment.isBefore(trackerMoment)) {
-      const completeMillis = startMoment.diff(trackerMoment);
-      const totalMillis = trackerMoment.diff(now) + completeMillis;
-      percentageComplete = completeMillis / totalMillis * 100;
+      const completeMillis = startMoment.diff(trackerMoment)
+      const totalMillis = trackerMoment.diff(now) + completeMillis
+      percentageComplete = completeMillis / totalMillis * 100
     }
 
     return (
-      <Table.Row className="graph">
-          <Table.Cell className="name-column" width={7} >
-            <Label >{tracker.name}</Label>
-          </Table.Cell>
-          <Table.Cell className="priority-column"  width={1}>
-            <Label circular color="green">{tracker.priority}</Label>
-          </Table.Cell>
-          <Table.Cell className="progress-column" width={8}>
-            <Progress
-              percent={percentageComplete}
-              indicating
-            />
-            </Table.Cell>
-
-
+      <Table.Row className='graph'>
+        <Table.Cell className='name-column' width={7} >
+          <Label >{tracker.name}</Label>
+        </Table.Cell>
+        <Table.Cell className='priority-column' width={1}>
+          <Label circular color='green'>{tracker.priority}</Label>
+        </Table.Cell>
+        <Table.Cell className='progress-column' width={8}>
+          <Progress
+            percent={percentageComplete}
+            indicating
+          />
+        </Table.Cell>
 
         {/* <Grid>
           <Grid.Column width={7}>
@@ -175,11 +166,11 @@ class Tracker extends Component {
           </Grid>
         </Segment> */}
       </Table.Row>
-    );
+    )
   }
 }
 Tracker.propTypes = {
   tracker: PropTypes.object.isRequired
-};
+}
 
-export default Tracker;
+export default Tracker

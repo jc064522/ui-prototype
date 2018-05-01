@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-import moment from "moment";
-import "./Graph.css";
+import moment from 'moment'
+import './Graph.css'
 import {
   Grid,
   Form,
   Label,
   Table,
   Progress
-} from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
+} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 
-import "react-datepicker/dist/react-datepicker.css";
-import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import 'react-datepicker/dist/react-datepicker.css'
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 import Header from 'prototypes/Header'
 
 const dummyTrackers = [
   {
-    name: "FANTASTIC_PIPELINE_ALL_CAPS_FOR_SOME_REASON",
+    name: 'FANTASTIC_PIPELINE_ALL_CAPS_FOR_SOME_REASON',
     trackerMs: moment()
-      .subtract(4, "hours")
+      .subtract(4, 'hours')
       .toISOString(),
     progress: 76,
     lastPollAge: 6.1,
@@ -45,9 +45,9 @@ const dummyTrackers = [
     priority: 5
   },
   {
-    name: "FANTASTIC_PIPELINE_2",
+    name: 'FANTASTIC_PIPELINE_2',
     trackerMs: moment()
-      .subtract(3, "days")
+      .subtract(3, 'days')
       .toISOString(),
     progress: 1,
     lastPollAge: 1,
@@ -56,9 +56,9 @@ const dummyTrackers = [
     priority: 18
   },
   {
-    name: "FANTASTIC_PIPELINE_3",
+    name: 'FANTASTIC_PIPELINE_3',
     trackerMs: moment()
-      .subtract(18, "hours")
+      .subtract(18, 'hours')
       .toISOString(),
     progress: 100,
     lastPollAge: 300,
@@ -66,7 +66,7 @@ const dummyTrackers = [
     enabled: false,
     priority: 10
   }
-];
+]
 
 // const sortOptions = [
 //   { key: "trackerMs", value: "trackerMs", text: "Created tasks up to" },
@@ -95,7 +95,7 @@ class Graph extends Component {
   };
 
   handleShowCompletedToggle = (e, toggleProps) => {
-    this.setState({ showCompleted: toggleProps.checked });
+    this.setState({ showCompleted: toggleProps.checked })
   };
 
   // handleSortChange = (e, orderDropdownProps) => {
@@ -107,40 +107,40 @@ class Graph extends Component {
   // };
 
   handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state;
+    const { column, data, direction } = this.state
 
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
         // data: _sortBy(data, [clickedColumn]),
         data: data.sort((l, r) => l[clickedColumn] > r[clickedColumn]),
-        direction: "ascending"
-      });
+        direction: 'ascending'
+      })
 
-      return;
+      return
     }
 
     this.setState({
       data: data.reverse(),
-      direction: direction === "ascending" ? "descending" : "ascending"
-    });
+      direction: direction === 'ascending' ? 'descending' : 'ascending'
+    })
   };
 
-  render() {
-    const { column, data, direction, showCompleted } = this.state;
+  render () {
+    const { column, data, direction, showCompleted } = this.state
 
     return (
-      <div className="App">
+      <div className='App'>
         <Grid>
-          <Header/>
-          
+          <Header />
+
           <Grid.Column width={4} />
           <Grid.Column width={8}>
             <Form>
               <Form.Group inline>
                 <Form.Checkbox
                   inline
-                  label="Include completed?"
+                  label='Include completed?'
                   toggle
                   onChange={this.handleShowCompletedToggle}
                 />
@@ -150,24 +150,24 @@ class Graph extends Component {
           <Grid.Column width={4} />
 
           <Grid.Column width={16}>
-            <Table sortable basic="very" className="tracker-table">
+            <Table sortable basic='very' className='tracker-table'>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell
-                    sorted={column === "name" ? direction : null}
-                    onClick={this.handleSort("name")}
+                    sorted={column === 'name' ? direction : null}
+                    onClick={this.handleSort('name')}
                   >
                     Name
                   </Table.HeaderCell>
                   <Table.HeaderCell
-                    sorted={column === "priority" ? direction : null}
-                    onClick={this.handleSort("priority")}
+                    sorted={column === 'priority' ? direction : null}
+                    onClick={this.handleSort('priority')}
                   >
                     Priority
                   </Table.HeaderCell>
                   <Table.HeaderCell
-                    sorted={column === "progress" ? direction : null}
-                    onClick={this.handleSort("progress")}
+                    sorted={column === 'progress' ? direction : null}
+                    onClick={this.handleSort('progress')}
                   >
                     Progress
                   </Table.HeaderCell>
@@ -176,35 +176,34 @@ class Graph extends Component {
               <Table.Body>
                 {data
                   .filter(tracker => {
-                    if(showCompleted){
-                      return true;
-                    }
-                    else {
+                    if (showCompleted) {
+                      return true
+                    } else {
                       return !tracker.completed
                     }
                   })
                   .map(({ name, priority, progress }) => (
-                  <Table.Row key={name}>
-                    <Table.Cell className="name-column" textAlign="right" width={7}>
-                      {name}
-                    </Table.Cell>
-                    <Table.Cell className="priority-column" textAlign="center" width={1}>
-                      <Label circular color="green">
-                        {priority}
-                      </Label>
-                    </Table.Cell>
-                    <Table.Cell className="progress-column" width={8}>
-                      <Progress percent={progress} indicating />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+                    <Table.Row key={name}>
+                      <Table.Cell className='name-column' textAlign='right' width={7}>
+                        {name}
+                      </Table.Cell>
+                      <Table.Cell className='priority-column' textAlign='center' width={1}>
+                        <Label circular color='green'>
+                          {priority}
+                        </Label>
+                      </Table.Cell>
+                      <Table.Cell className='progress-column' width={8}>
+                        <Progress percent={progress} indicating />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
               </Table.Body>
             </Table>
           </Grid.Column>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
-export default Graph;
+export default Graph

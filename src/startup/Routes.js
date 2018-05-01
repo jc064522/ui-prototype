@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-import React from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
 
-import Home from "sections/Home";
-import OriginalList from "prototypes/OriginalList";
-import Graph from "prototypes/Graph";
+import Home from 'sections/Home'
+import OriginalList from 'prototypes/OriginalList'
+import Graph from 'prototypes/Graph'
 
 const Routes = () => (
   <BrowserRouter>
     <div>
-      <Route exact path="/" component={Home} />
-      <Route path="/prototypes/original_list" component={OriginalList} />
-      <Route path="/prototypes/graph" component={Graph} />
+      <Route exact path='/' component={Home} />
+      <Route path='/prototypes/original_list' component={OriginalList} />
+      <Route path='/prototypes/graph' component={Graph} />
     </div>
   </BrowserRouter>
 )
 
-export default Routes;
+export default Routes

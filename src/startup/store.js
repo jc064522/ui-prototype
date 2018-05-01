@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-import { createStore } from "redux";
+import { createStore } from 'redux'
 
 import middleware from 'startup/middleware'
-import reducers from "startup/reducers";
-import { fetchConfigSynchronously } from "startup/config";
+import reducers from 'startup/reducers'
+import { fetchConfigSynchronously } from 'startup/config'
 
 const initialState = {
   config: fetchConfigSynchronously()
-};
+}
 
 const store = createStore(
   reducers,
   initialState,
   middleware
-);
+)
 
-export default store;
+export default store
