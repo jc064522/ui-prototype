@@ -18,8 +18,8 @@ import React from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import Home from "sections/Home";
-import OriginalList from "sections/OriginalList";
-import Graph from "sections/Graph";
+import OriginalList from "prototypes/OriginalList";
+import Graph from "prototypes/Graph";
 
 const Routes = () => (
   <BrowserRouter>
@@ -29,18 +29,18 @@ const Routes = () => (
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/original_list">Original List</Link>
+          <Link to="/prototypes/original_list">Original List</Link>
         </li>
         <li>
-          <Link to="/graph">Graph</Link>
+          <Link to="/prototypes/graph">Graph</Link>
         </li>
       </ul>
 
       <hr />
 
       <Route exact path="/" component={Home} />
-      <Route path="/original_list" component={OriginalList} />
-      <Route path="/graph" component={Graph} />
+      <Route path="/prototypes/original_list" component={OriginalList} />
+      <Route path="/prototypes/graph" component={Graph} />
     </div>
   </BrowserRouter>
 )

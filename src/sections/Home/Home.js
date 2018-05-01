@@ -22,7 +22,6 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1> Dafuk? </h1>
         <div>
           <ul>
             <li>
