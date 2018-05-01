@@ -177,7 +177,7 @@ class Graph extends Component {
                     }
                   })
                   .map(({ name, priority, progress }) => (
-                  <Table.Row>
+                  <Table.Row key={name}>
                     <Table.Cell className="name-column" textAlign="right" width={7}>
                       {name}
                     </Table.Cell>

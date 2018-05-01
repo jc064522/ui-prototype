@@ -1,23 +1,12 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  Segment,
-  List,
-  Accordion,
-  Form,
-  Label,
-  Button
-} from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
-
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import Home from "pages/Home";
 import OriginalList from "pages/OriginalList";
 import Graph from "pages/Graph";
 
 const Routes = () => (
-  <Router>
+  <BrowserRouter>
     <div>
       <ul>
         <li>
@@ -37,7 +26,7 @@ const Routes = () => (
       <Route path="/original_list" component={OriginalList} />
       <Route path="/graph" component={Graph} />
     </div>
-  </Router>
+  </BrowserRouter>
 )
 
 export default Routes;

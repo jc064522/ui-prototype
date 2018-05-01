@@ -7,10 +7,16 @@
     "react": "^16.3.2",
     "react-datepicker": "^1.4.1",
     "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.79.1"
+    "semantic-ui-react": "^0.79.1",
+    "stroom-js": "https://github.com/gchq/stroom-js.git#dist"
   },
   "scripts": {
     "start": "react-scripts start",

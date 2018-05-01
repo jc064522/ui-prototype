@@ -1,10 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM, { render } from "react-dom";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "react-router-redux";
 
-import './index.css';
-import Routes from './Routes';
-import BasicExample from './BasicExample';
-import registerServiceWorker from './registerServiceWorker';
+import Routes from "./Routes";
+import registerServiceWorker from "./registerServiceWorker";
+import store, { history } from "./store";
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Routes />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById("root")
+);
+
 registerServiceWorker();
