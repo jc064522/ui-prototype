@@ -16,9 +16,9 @@
 
 import { createStore } from "redux";
 
-import middleware from 'middleware'
-import reducers from "reducers";
-import { fetchConfigSynchronously } from "config";
+import middleware from 'startup/middleware'
+import reducers from "startup/reducers";
+import { fetchConfigSynchronously } from "startup/config";
 
 const initialState = {
   config: fetchConfigSynchronously()

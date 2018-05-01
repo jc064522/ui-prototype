@@ -17,9 +17,9 @@
 import React from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 
-import Home from "pages/Home";
-import OriginalList from "pages/OriginalList";
-import Graph from "pages/Graph";
+import Home from "sections/Home";
+import OriginalList from "sections/OriginalList";
+import Graph from "sections/Graph";
 
 const Routes = () => (
   <BrowserRouter>
