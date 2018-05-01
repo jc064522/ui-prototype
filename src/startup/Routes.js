@@ -24,20 +24,6 @@ import Graph from "prototypes/Graph";
 const Routes = () => (
   <BrowserRouter>
     <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/prototypes/original_list">Original List</Link>
-        </li>
-        <li>
-          <Link to="/prototypes/graph">Graph</Link>
-        </li>
-      </ul>
-
-      <hr />
-
       <Route exact path="/" component={Home} />
       <Route path="/prototypes/original_list" component={OriginalList} />
       <Route path="/prototypes/graph" component={Graph} />

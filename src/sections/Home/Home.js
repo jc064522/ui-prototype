@@ -22,21 +22,19 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <div>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/original_list">Original List</Link>
-            </li>
-            <li>
-              <Link to="/graph">Graph</Link>
-            </li>
-          </ul>
-
-          <hr />
-        </div>
+        <h1>Welcome to Stroom UI components</h1>
+        <h2>Sections</h2>
+        <p>Nothing here yet</p>
+        <h2>Prototypes</h2>
+        <ul>
+          <li>
+            <Link to="/prototypes/original_list">Original List</Link>
+          </li>
+          <li>
+            <Link to="/prototypes/graph">Graph</Link>
+          </li>
+        </ul>
+        <hr />
       </div>
     );
   }

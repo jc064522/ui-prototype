@@ -15,6 +15,7 @@
  */
 
 import React, { Component } from "react";
+
 import moment from "moment";
 import "./Graph.css";
 import {
@@ -29,7 +30,7 @@ import "semantic-ui-css/semantic.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
-// import Tracker from "./Tracker";
+import Header from 'prototypes/Header'
 
 const dummyTrackers = [
   {
@@ -131,11 +132,8 @@ class Graph extends Component {
     return (
       <div className="App">
         <Grid>
-          <Grid.Column width={16}>
-            <header className="App-header">
-              <h1 className="App-title">Stroom</h1>
-            </header>
-          </Grid.Column>
+          <Header/>
+          
           <Grid.Column width={4} />
           <Grid.Column width={8}>
             <Form>
