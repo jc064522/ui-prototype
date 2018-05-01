@@ -15,6 +15,7 @@
  */
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -22,6 +23,8 @@ import moment from 'moment'
 
 import { Grid, Form, Label, Table, Progress, Dimmer, Loader } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
+
+import {fetchTrackers} from './trackerDashboardData'
 
 import './TrackerDashboard.css'
 
@@ -62,6 +65,10 @@ const dummyTrackers = [
 ]
 
 class TrackerDashboard extends Component {
+  componentWillMount () {
+    this.context.store.dispatch(fetchTrackers({sortBy: this.state.column, sortDirection: this.state.direction, showCompleted: this.state.showCompleted}))
+  }
+
   // Set up some defaults
   state = {
     showCompleted: false,
@@ -96,6 +103,7 @@ class TrackerDashboard extends Component {
 
   handleFilterByNameChange = (e, inputProps) => {
     console.log(inputProps.value)
+    this.context.store.dispatch(fetchTrackers({sortBy: this.state.column, sortDirection: this.state.direction, showCompleted: this.state.showCompleted}))
     // TODO show Loader over the table
     // TODO submit query
   }
@@ -198,6 +206,10 @@ class TrackerDashboard extends Component {
       </div>
     )
   }
+}
+
+TrackerDashboard.contextTypes = {
+  store: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
