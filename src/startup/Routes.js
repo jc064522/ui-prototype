@@ -20,11 +20,13 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Home from 'sections/Home'
 import OriginalList from 'prototypes/OriginalList'
 import Graph from 'prototypes/Graph'
+import TrackerDashboard from 'sections/TrackerDashboard'
 
 const Routes = () => (
   <BrowserRouter>
     <div>
       <Route exact path='/' component={Home} />
+      <Route path='/trackers' component={TrackerDashboard} />
       <Route path='/prototypes/original_list' component={OriginalList} />
       <Route path='/prototypes/graph' component={Graph} />
     </div>

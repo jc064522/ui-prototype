@@ -31,6 +31,8 @@
 
 export const UPDATE_TRACKERS = 'trackerDashboard/UPDATE_TRACKERS'
 
+const fetch = window.fetch
+
 const initialState = {
   trackers: []
 }

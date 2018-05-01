@@ -23,10 +23,16 @@ import './Home.css'
 class Home extends Component {
   render () {
     return (
-      <div>
+      <div className='home-container'>
         <h1>Welcome to Stroom UI components</h1>
+
         <h2>Sections</h2>
-        <p>Nothing here yet</p>
+        <ul>
+          <li>
+            <Link to='/trackers'>Tracker dashboard</Link>
+          </li>
+        </ul>
+
         <h2>Prototypes</h2>
         <ul>
           <li>
@@ -36,6 +42,7 @@ class Home extends Component {
             <Link to='/prototypes/graph'>Graph</Link>
           </li>
         </ul>
+
         <h2>Storybook</h2>
         <p>If Storybook is running you can go there to look at the components (which should include the prototypes)</p>
         <ul>
@@ -43,6 +50,7 @@ class Home extends Component {
             <a href='http://localhost:9001'>Storybook</a>
           </li>
         </ul>
+
       </div>
     )
   }

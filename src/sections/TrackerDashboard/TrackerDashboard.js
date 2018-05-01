@@ -17,7 +17,7 @@
 import React, { Component } from 'react'
 
 import moment from 'moment'
-import './Graph.css'
+import './TrackerDashboard.css'
 import {
   Grid,
   Form,

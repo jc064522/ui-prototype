@@ -34,8 +34,6 @@
   "standard": {
     "parser": "babel-eslint",
     "globals": [
-      "it",
-      "fetch",
       "URL"
     ]
   }
