@@ -18,6 +18,8 @@ import React, { Component } from 'react'
 
 import { Link } from 'react-router-dom'
 
+import './Home.css'
+
 class Home extends Component {
   render () {
     return (
@@ -35,13 +37,12 @@ class Home extends Component {
           </li>
         </ul>
         <h2>Storybook</h2>
-        <p>If Storybook is running you can go there to look at the components</p>
+        <p>If Storybook is running you can go there to look at the components (which should include the prototypes)</p>
         <ul>
           <li>
             <a href='http://localhost:9001'>Storybook</a>
           </li>
         </ul>
-        <hr />
       </div>
     )
   }
