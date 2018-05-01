@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-export const UPDATE_CONFIG = 'config/UPDATE_CONFIG'
+import $ from "jquery";
 
-const initialState = {
-}
+export const UPDATE_CONFIG = "config/UPDATE_CONFIG";
+
+const initialState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -29,23 +30,38 @@ export default (state = initialState, action) => {
         streamTaskServiceUrl: action.config.streamTaskServiceUrl,
         advertisedUrl: action.config.advertisedUrl,
         appClientId: action.config.appClientId
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-function updateConfig (config) {
+function updateConfig(config) {
   return {
     type: UPDATE_CONFIG,
     config
-  }
+  };
 }
 
 export const fetchConfig = () => {
-  return (dispatch) => {
-    fetch('/config.json', {method: 'get'})
-    .then(response => response.json())
-    .then(config => dispatch(updateConfig(config)))
-  }
-}
+  return dispatch => {
+    fetch("/config.json", { method: "get" })
+      .then(response => response.json())
+      .then(config => dispatch(updateConfig(config)));
+  };
+};
+
+export const fetchConfigSynchronously = () => {
+  // This causes a console warning about synchronous calls degrading the user experience.
+  // In our case it's necessary -- we must retrieve the config before we bootstrap react and
+  // synchronous is the only way.
+  var result = $.ajax({
+    url: "/config.json",
+    contentType: "application/json",
+    dataType: "json",
+    method: "GET",
+    async: false
+  });
+
+  return result.responseJSON
+};

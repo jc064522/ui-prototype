@@ -3,18 +3,13 @@ import moment from "moment";
 import "./Graph.css";
 import {
   Grid,
-  Segment,
-  List,
-  Accordion,
   Form,
   Label,
-  Button,
   Table,
   Progress
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
@@ -115,9 +110,7 @@ class Graph extends Component {
   };
 
   render() {
-    const trackers = dummyTrackers;
-    const { showCompleted, orderBy, sortDirection } = this.state;
-    const { column, data, direction } = this.state;
+    const { column, data, direction, showCompleted } = this.state;
 
     return (
       <div className="App">

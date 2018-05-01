@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Crown Copyright
+ * Copyright 2018 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,70 +14,20 @@
  * limitations under the License.
  */
 
-import { createStore, applyMiddleware, compose } from 'redux'
-import { routerMiddleware } from 'react-router-redux'
-import thunk from 'redux-thunk'
-import createHistory from 'history/createBrowserHistory'
-import logger from 'redux-logger'
-import $ from 'jquery'
+import { createStore } from "redux";
 
-import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
-// import { reducer as formReducer } from 'redux-form'
-import { authenticationReducer as authentication, authorisationReducer as authorisation } from 'stroom-js'
-
-import reducers from './reducers'
-import config from './config'
-
-// const reducers = combineReducers({
-//   routing: routerReducer,
-//   authentication,
-//   authorisation,
-//   // config
-//   // form: formReducer
-// })
-
-
-export const history = createHistory()
-
-const historyMiddleware = routerMiddleware(history)
-
-
-var result = $.ajax({
-  url: '/config.json',
-  contentType: 'application/json',
-  dataType: 'json',
-  method: 'GET',
-  async: false
-})
+import middleware from 'middleware'
+import reducers from "reducers";
+import { fetchConfigSynchronously } from "config";
 
 const initialState = {
-  config: result.responseJSON
-}
-
-const enhancers = []
-const middleware = applyMiddleware(
-  thunk,
-  historyMiddleware,
-  logger)
-
-if (process.env.NODE_ENV === 'development') {
-  const devToolsExtension = window.devToolsExtension
-
-  if (typeof devToolsExtension === 'function') {
-    enhancers.push(devToolsExtension())
-  }
-}
-
-const composedEnhancers = compose(
-  middleware,
-  ...enhancers
-)
+  config: fetchConfigSynchronously()
+};
 
 const store = createStore(
   reducers,
   initialState,
   middleware
-)
+);
 
-export default store
+export default store;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { Input, Button, Icon, Grid, Popup } from "semantic-ui-react";
+import { Input, Button, Icon, Popup } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 import "./NumericInput.css";
@@ -60,7 +60,7 @@ class NumericInput extends Component {
   };
 
   handleValueChange = (e, inputProps) => {
-    let newValue = parseInt(inputProps.value);
+    let newValue = parseInt(inputProps.value, 10); // 10 = the radix, indicating decimal
     if (isNaN(newValue)) {
       newValue = inputProps.value;
     }
@@ -69,8 +69,8 @@ class NumericInput extends Component {
   };
 
   render() {
-    const { value, isUpDisabled, isDownDisabled, visible } = this.state;
-    const { min, max, defaultValue, placeholder, label } = this.props;
+    const { value, isUpDisabled, isDownDisabled } = this.state;
+    const { min, max, defaultValue, placeholder } = this.props;
 
     let valueIsBad = value < min || value > max;
     let valueIsBadMessage = "";
@@ -131,8 +131,7 @@ NumericInput.propTypes = {
   max: PropTypes.number,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.number,
-  value: PropTypes.number,
-  label: PropTypes.string
+  value: PropTypes.number
 };
 
 export default NumericInput;

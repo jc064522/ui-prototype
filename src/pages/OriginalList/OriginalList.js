@@ -4,11 +4,7 @@ import "./OriginalList.css";
 import {
   Grid,
   Segment,
-  List,
-  Accordion,
-  Form,
-  Label,
-  Button
+  Form
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
