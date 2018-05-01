@@ -17,7 +17,7 @@
 import React, { Component } from 'react'
 
 import moment from 'moment'
-import './TrackerDashboard.css'
+
 import {
   Grid,
   Form,
@@ -27,8 +27,7 @@ import {
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
-import 'react-datepicker/dist/react-datepicker.css'
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import './TrackerDashboard.css'
 
 const dummyTrackers = [
   {
@@ -66,27 +65,10 @@ const dummyTrackers = [
   }
 ]
 
-// const sortOptions = [
-//   { key: "trackerMs", value: "trackerMs", text: "Created tasks up to" },
-//   {
-//     key: "trackerPercentage",
-//     value: "trackerPercentage",
-//     text: "Percentage complete"
-//   },
-//   { key: "lastPollAge", value: "lastPollAge", text: "Last polled" }
-// ];
-
-// const sortDirectionOptions = [
-//   { key: "asc", value: "asc", text: "Ascending" },
-//   { key: "desc", value: "desc", text: "Descending" }
-// ];
-
 class TrackerDashboard extends Component {
   // Set up some defaults
   state = {
     showCompleted: false,
-    // orderBy: "trackerMs",
-    // sortDirection: "desc",
     data: dummyTrackers,
     column: 'progress',
     direction: 'descending'
@@ -95,14 +77,6 @@ class TrackerDashboard extends Component {
   handleShowCompletedToggle = (e, toggleProps) => {
     this.setState({ showCompleted: toggleProps.checked })
   };
-
-  // handleSortChange = (e, orderDropdownProps) => {
-  //   this.setState({ orderBy: orderDropdownProps.value });
-  // };
-
-  // handleSortDirectionChange = (e, sortDirectionDropdownProps) => {
-  //   this.setState({ sortDirection: sortDirectionDropdownProps.value });
-  // };
 
   handleSort = clickedColumn => () => {
     const { column, data, direction } = this.state
