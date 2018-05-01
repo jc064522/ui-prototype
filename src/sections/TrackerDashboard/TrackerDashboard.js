@@ -30,8 +30,6 @@ import 'semantic-ui-css/semantic.min.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
-import Header from 'prototypes/Header'
-
 const dummyTrackers = [
   {
     name: 'FANTASTIC_PIPELINE_ALL_CAPS_FOR_SOME_REASON',
@@ -132,8 +130,6 @@ class TrackerDashboard extends Component {
     return (
       <div className='App'>
         <Grid>
-          <Header />
-
           <Grid.Column width={4} />
           <Grid.Column width={8}>
             <Form>
