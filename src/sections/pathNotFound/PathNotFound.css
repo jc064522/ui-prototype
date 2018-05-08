@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Crown Copyright
+ * Copyright 2017 Crown Copyright
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,7 @@
  * limitations under the License.
  */
 
-import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-// import { reducer as formReducer } from 'redux-form'
-import {
-  authenticationReducer as authentication,
-  authorisationReducer as authorisation,
-} from 'components/Authentication';
-import { trackerDashboard } from 'sections/TrackerDashboard';
-import config from './config';
-
-export default combineReducers({
-  routing: routerReducer,
-  authentication,
-  authorisation,
-  config,
-  trackerDashboard,
-  // form: formReducer
-});
+.PathNotFound-card {
+    width: 300px;
+    padding: 15px;
+}

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import moment from 'moment'
+import moment from 'moment';
 
-import { Grid, Form, Label, Table, Progress, Dimmer, Loader } from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.min.css'
+import { Grid, Form, Label, Table, Progress, Dimmer, Loader } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 
-import {fetchTrackers} from './trackerDashboardData'
+import { fetchTrackers } from './trackerDashboardData';
 
-import './TrackerDashboard.css'
+import './TrackerDashboard.css';
 
 const dummyTrackers = [
   {
@@ -38,7 +38,7 @@ const dummyTrackers = [
     lastPollAge: 6.1,
     completed: false,
     enabled: true,
-    priority: 5
+    priority: 5,
   },
   {
     name: 'FANTASTIC_PIPELINE_2',
@@ -49,7 +49,7 @@ const dummyTrackers = [
     lastPollAge: 1,
     completed: false,
     enabled: true,
-    priority: 18
+    priority: 18,
   },
   {
     name: 'FANTASTIC_PIPELINE_3',
@@ -60,13 +60,17 @@ const dummyTrackers = [
     lastPollAge: 300,
     completed: true,
     enabled: false,
-    priority: 10
-  }
-]
+    priority: 10,
+  },
+];
 
 class TrackerDashboard extends Component {
-  componentWillMount () {
-    this.context.store.dispatch(fetchTrackers({sortBy: this.state.column, sortDirection: this.state.direction, showCompleted: this.state.showCompleted}))
+  componentWillMount() {
+    this.context.store.dispatch(fetchTrackers({
+      sortBy: this.state.column,
+      sortDirection: this.state.direction,
+      showCompleted: this.state.showCompleted,
+    }));
   }
 
   // Set up some defaults
@@ -78,43 +82,49 @@ class TrackerDashboard extends Component {
   };
 
   handleShowCompletedToggle = (e, toggleProps) => {
-    this.setState({ showCompleted: toggleProps.checked })
+    this.setState({ showCompleted: toggleProps.checked });
   };
 
   handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state
+    const { column, data, direction } = this.state;
 
     if (column !== clickedColumn) {
       this.setState({
         column: clickedColumn,
         // data: _sortBy(data, [clickedColumn]),
         data: data.sort((l, r) => l[clickedColumn] > r[clickedColumn]),
-        direction: 'ascending'
-      })
+        direction: 'ascending',
+      });
 
-      return
+      return;
     }
 
     this.setState({
       data: data.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending'
-    })
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    });
   };
 
   handleFilterByNameChange = (e, inputProps) => {
-    console.log(inputProps.value)
-    this.context.store.dispatch(fetchTrackers({sortBy: this.state.column, sortDirection: this.state.direction, showCompleted: this.state.showCompleted}))
+    console.log(inputProps.value);
+    this.context.store.dispatch(fetchTrackers({
+      sortBy: this.state.column,
+      sortDirection: this.state.direction,
+      showCompleted: this.state.showCompleted,
+    }));
     // TODO show Loader over the table
     // TODO submit query
-  }
+  };
 
-  render () {
-    const { column, data, direction, showCompleted } = this.state
+  render() {
+    const {
+      column, data, direction, showCompleted,
+    } = this.state;
 
-    const { dimTable } = this.props
+    const { dimTable } = this.props;
 
     return (
-      <div className='App'>
+      <div className="App">
         <Grid>
           <Grid.Column width={4} />
           <Grid.Column width={8}>
@@ -122,14 +132,14 @@ class TrackerDashboard extends Component {
               <Form.Group inline>
                 <Form.Checkbox
                   inline
-                  label='Include completed?'
+                  label="Include completed?"
                   toggle
                   onChange={this.handleShowCompletedToggle}
                 />
                 <Form.Input
-                  icon='search'
-                  iconPosition='left'
-                  placeholder='Filter by name...'
+                  icon="search"
+                  iconPosition="left"
+                  placeholder="Filter by name..."
                   onChange={this.handleFilterByNameChange}
                 />
               </Form.Group>
@@ -138,12 +148,11 @@ class TrackerDashboard extends Component {
           <Grid.Column width={4} />
 
           <Grid.Column width={16}>
-
             <Dimmer active={dimTable} inverted>
-              <Loader size='medium' />
+              <Loader size="medium" />
             </Dimmer>
 
-            <Table sortable basic='very' className='tracker-table'>
+            <Table sortable basic="very" className="tracker-table">
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell
@@ -169,32 +178,23 @@ class TrackerDashboard extends Component {
 
               <Table.Body>
                 {data
-                  .filter(tracker => {
+                  .filter((tracker) => {
                     if (showCompleted) {
-                      return true
-                    } else {
-                      return !tracker.completed
+                      return true;
                     }
+                      return !tracker.completed;
                   })
                   .map(({ name, priority, progress }) => (
                     <Table.Row key={name}>
-                      <Table.Cell
-                        className='name-column'
-                        textAlign='right'
-                        width={7}
-                      >
+                      <Table.Cell className="name-column" textAlign="right" width={7}>
                         {name}
                       </Table.Cell>
-                      <Table.Cell
-                        className='priority-column'
-                        textAlign='center'
-                        width={1}
-                      >
-                        <Label circular color='green'>
+                      <Table.Cell className="priority-column" textAlign="center" width={1}>
+                        <Label circular color="green">
                           {priority}
                         </Label>
                       </Table.Cell>
-                      <Table.Cell className='progress-column' width={8}>
+                      <Table.Cell className="progress-column" width={8}>
                         <Progress percent={progress} indicating />
                       </Table.Cell>
                     </Table.Row>
@@ -204,23 +204,18 @@ class TrackerDashboard extends Component {
           </Grid.Column>
         </Grid>
       </div>
-    )
+    );
   }
 }
 
 TrackerDashboard.contextTypes = {
-  store: PropTypes.object.isRequired
-}
+  store: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
-  dimTable: state.trackerDashboard.isLoading
-})
+  dimTable: state.trackerDashboard.isLoading,
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
-}, dispatch)
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TrackerDashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(TrackerDashboard);

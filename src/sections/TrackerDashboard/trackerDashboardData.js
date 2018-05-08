@@ -16,24 +16,24 @@
  * limitations under the License.
  */
 
-export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS'
+export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS';
 
-const fetch = window.fetch
+const fetch = window.fetch;
 
 declare type Tracker = {
   name: string,
   trackerMs: Date,
-  trackerPercentage: number 
-}
+  trackerPercentage: number
+};
 
 declare type AuthenticationState = {
   idToken: string
-}
+};
 
 declare type ConfigState = {
   streamTaskServiceUrl: string
 };
- 
+
 declare type StateRoot = {
   tracherDash: TrackerState,
   authentication: AuthenticationState,
@@ -52,7 +52,7 @@ type PromiseAction = Promise<Action>;
 
 const initialState: TrackerState = {
   trackers: [],
-  isLoading: false
+  isLoading: false,
 };
 
 type UpdateTrackerAction = {
@@ -62,15 +62,12 @@ type UpdateTrackerAction = {
 
 type Action = UpdateTrackerAction;
 
-export default (
-  state: TrackerState = initialState,
-  action: Action
-): TrackerState => {
+export default (state: TrackerState = initialState, action: Action): TrackerState => {
   switch (action.type) {
     case UPDATE_TRACKERS:
       return {
         ...state,
-        trackers: action.trackers
+        trackers: action.trackers,
       };
 
     default:
@@ -87,27 +84,25 @@ export const fetchTrackers = (query: {
   sortBy: string,
   sortDirection: string,
   nameFilter?: string
-}): ThunkAction => {
-  return (dispatch, getState) => {
-    const jwsToken = getState().authentication.idToken;
-    let url = `${getState().config.streamTaskServiceUrl}/?
+}): ThunkAction => (dispatch, getState) => {
+  const jwsToken = getState().authentication.idToken;
+  let url = `${getState().config.streamTaskServiceUrl}/?
     page=${query.page}
     &sortBy=${query.sortBy}
     &sortDirection=${query.sortDirection}`;
-    if (query.nameFilter) {
-      url = url + `&nameFilter=${query.nameFilter ? "" : query.nameFilter}`;
-    }
+  if (query.nameFilter) {
+    url = `${url}&nameFilter=${query.nameFilter ? '' : query.nameFilter}`;
+  }
 
-    fetch(url, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + jwsToken
-      },
-      method: "get",
-      mode: "cors"
-    }).then(trackers => {
-      dispatch(updateTrackers(trackers));
-    });
-  };
+  fetch(url, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwsToken}`,
+    },
+    method: 'get',
+    mode: 'cors',
+  }).then((trackers) => {
+    dispatch(updateTrackers(trackers));
+  });
 };

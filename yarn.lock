@@ -4235,7 +4235,7 @@ he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-history@^4.6.3, history@^4.7.2:
+history@^4.7.2:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
   dependencies:
@@ -7156,13 +7156,6 @@ react-popper@^0.9.1:
     popper.js "^1.14.1"
     prop-types "^15.6.1"
 
-react-redux-router@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/react-redux-router/-/react-redux-router-0.0.12.tgz#63c0992550b9e06fcd106ff0c1da408ec83fcf2c"
-  dependencies:
-    history "^4.6.3"
-    path-to-regexp "^1.7.0"
-
 react-redux@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
@@ -8269,23 +8262,6 @@ strip-indent@^1.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
-
-"stroom-js@file://home/jc064522/dev/gchq/stroom-js":
-  version "1.0.0"
-  dependencies:
-    jwt-decode "^2.2.0"
-    react-redux-router "^0.0.12"
-    sjcl "^1.0.7"
-    uuid "^3.1.0"
-
-"stroom-js@https://github.com/gchq/stroom-js.git#dist":
-  version "1.0.0"
-  resolved "https://github.com/gchq/stroom-js.git#f029467463f53a199c9d6234bf1ebb74c97e313a"
-  dependencies:
-    jwt-decode "^2.2.0"
-    react-redux-router "^0.0.12"
-    sjcl "^1.0.7"
-    uuid "^3.1.0"
 
 style-loader@0.19.0:
   version "0.19.0"
