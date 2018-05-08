@@ -102,7 +102,11 @@ export const fetchTrackers = (query: {
     },
     method: 'get',
     mode: 'cors',
-  }).then((trackers) => {
+  }).then(response => response.json())
+  .then(trackers => {
     dispatch(updateTrackers(trackers));
+  })
+  .catch(error => {
+    console.log(error)
   });
 };

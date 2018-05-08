@@ -28,42 +28,6 @@ import { fetchTrackers } from './trackerDashboardData';
 
 import './TrackerDashboard.css';
 
-const dummyTrackers = [
-  {
-    name: 'FANTASTIC_PIPELINE_ALL_CAPS_FOR_SOME_REASON',
-    trackerMs: moment()
-      .subtract(4, 'hours')
-      .toISOString(),
-    progress: 76,
-    lastPollAge: 6.1,
-    completed: false,
-    enabled: true,
-    priority: 5,
-  },
-  {
-    name: 'FANTASTIC_PIPELINE_2',
-    trackerMs: moment()
-      .subtract(3, 'days')
-      .toISOString(),
-    progress: 1,
-    lastPollAge: 1,
-    completed: false,
-    enabled: true,
-    priority: 18,
-  },
-  {
-    name: 'FANTASTIC_PIPELINE_3',
-    trackerMs: moment()
-      .subtract(18, 'hours')
-      .toISOString(),
-    progress: 100,
-    lastPollAge: 300,
-    completed: true,
-    enabled: false,
-    priority: 10,
-  },
-];
-
 class TrackerDashboard extends Component {
   componentWillMount() {
     this.context.store.dispatch(fetchTrackers({
@@ -76,52 +40,55 @@ class TrackerDashboard extends Component {
   // Set up some defaults
   state = {
     showCompleted: false,
-    data: dummyTrackers,
     column: 'progress',
     direction: 'descending'
   };
 
   handleShowCompletedToggle = (e, toggleProps) => {
+
+    //TODO: dispatch fetch trackers with showCompleted
     this.setState({ showCompleted: toggleProps.checked });
   };
 
   handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state;
+    //TODO: dispatch fetch trackers with sorting
+    // const { column, data, direction } = this.state;
 
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        // data: _sortBy(data, [clickedColumn]),
-        data: data.sort((l, r) => l[clickedColumn] > r[clickedColumn]),
-        direction: 'ascending',
-      });
+    // if (column !== clickedColumn) {
+    //   this.setState({
+    //     column: clickedColumn,
+    //     // data: _sortBy(data, [clickedColumn]),
+    //     data: data.sort((l, r) => l[clickedColumn] > r[clickedColumn]),
+    //     direction: 'ascending',
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
-    this.setState({
-      data: data.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
-    });
+    // this.setState({
+    //   data: data.reverse(),
+    //   direction: direction === 'ascending' ? 'descending' : 'ascending',
+    // });
   };
 
   handleFilterByNameChange = (e, inputProps) => {
-    console.log(inputProps.value);
-    this.context.store.dispatch(fetchTrackers({
-      sortBy: this.state.column,
-      sortDirection: this.state.direction,
-      showCompleted: this.state.showCompleted,
-    }));
+    //TODO: dispatch fetch trackers with filtering
+    // console.log(inputProps.value);
+    // this.context.store.dispatch(fetchTrackers({
+    //   sortBy: this.state.column,
+    //   sortDirection: this.state.direction,
+    //   showCompleted: this.state.showCompleted,
+    // }));
     // TODO show Loader over the table
     // TODO submit query
   };
 
   render() {
     const {
-      column, data, direction, showCompleted,
+      column, direction, showCompleted,
     } = this.state;
 
-    const { dimTable } = this.props;
+    const { dimTable, trackers } = this.props;
 
     return (
       <div className="App">
@@ -177,17 +144,20 @@ class TrackerDashboard extends Component {
               </Table.Header>
 
               <Table.Body>
-                {data
+                {trackers
                   .filter((tracker) => {
                     if (showCompleted) {
                       return true;
                     }
-                      return !tracker.completed;
+                    else{
+                      const isCompleted = tracker.status === 'complete'
+                      return !isCompleted;
+                    }
                   })
-                  .map(({ name, priority, progress }) => (
-                    <Table.Row key={name}>
+                  .map(({ pipelineName, priority, trackerPercent }) => (
+                    <Table.Row key={pipelineName}>
                       <Table.Cell className="name-column" textAlign="right" width={7}>
-                        {name}
+                        {pipelineName}
                       </Table.Cell>
                       <Table.Cell className="priority-column" textAlign="center" width={1}>
                         <Label circular color="green">
@@ -195,7 +165,7 @@ class TrackerDashboard extends Component {
                         </Label>
                       </Table.Cell>
                       <Table.Cell className="progress-column" width={8}>
-                        <Progress percent={progress} indicating />
+                        <Progress percent={trackerPercent} indicating />
                       </Table.Cell>
                     </Table.Row>
                   ))}
@@ -214,6 +184,7 @@ TrackerDashboard.contextTypes = {
 
 const mapStateToProps = state => ({
   dimTable: state.trackerDashboard.isLoading,
+  trackers: state.trackerDashboard.trackers
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
