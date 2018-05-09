@@ -114,6 +114,7 @@ class TrackerDashboard extends Component {
                       {/* <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' /> */}
                       <Card.Header>
                         <Table className="tracker-details-table">
+                        <Table.Body>
                       <Table.Row className="tracker-row"  >
                               <Table.Cell className="name-column" textAlign="right" width={7}>
                                 {selectedTracker.pipelineName}
@@ -127,6 +128,7 @@ class TrackerDashboard extends Component {
                                 <Progress percent={selectedTracker.trackerPercent} indicating />
                               </Table.Cell>
                             </Table.Row>
+                            </Table.Body>
                             </Table>
                       </Card.Header>
 
@@ -148,12 +150,16 @@ class TrackerDashboard extends Component {
                       </Card.Description>
                     </Card.Content>
                   <Card.Content extra>
-                  <Checkbox toggle label='Enabled?' checked={selectedTracker.enabled} onMouseDown={() => onHandleEnableToggle(selectedTracker.filterId, selectedTracker.enabled)}/>
-                    {/* <div className='ui two buttons'>
-                      <Button basic color='green'>Approve</Button>
-                      <Button basic color='red'>Decline</Button>
-                    </div> */}
+                    <Grid>
+                      <Grid.Column width={8}>
+                    <Checkbox toggle label='Enabled?' checked={selectedTracker.enabled} onMouseDown={() => onHandleEnableToggle(selectedTracker.filterId, selectedTracker.enabled)}/>
+                    </Grid.Column>  
+                      <Grid.Column width={8}>
+                      <Button basic color='green' onClick={() => onHandleTrackerSelection(undefined)}>OK</Button>
+                      </Grid.Column>
+                    </Grid>
                   </Card.Content>
+
                 </Card>
      </Card.Group>
                 </div>)
@@ -208,7 +214,7 @@ class TrackerDashboard extends Component {
                       lastPollAge, taskCount, trackerMs,  streamCount, eventCount
                     }) => (
 
-                          <Table.Row className="tracker-row"  onClick={() => onHandleTrackerSelection(filterId)}>
+                          <Table.Row key={filterId} className="tracker-row"  onClick={() => onHandleTrackerSelection(filterId)}>
                             <Table.Cell className="name-column" textAlign="right" width={7}>
                               {pipelineName}
                             </Table.Cell>
