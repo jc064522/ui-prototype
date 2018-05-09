@@ -136,15 +136,15 @@ class TrackerDashboard extends Component {
                         <Grid centered divided columns={2}>
                           <Grid.Column textAlign='left'>
                             <p><em>status: </em>{selectedTracker.status ? selectedTracker.status : 'No status'}</p>
-                            <p><em>Last poll age: </em>{selectedTracker.lastPollAge}</p>
-                            <p><em>Task count: </em>{selectedTracker.taskCount}</p>
-                            <p><em>Tracker last active: </em>{moment(selectedTracker.trackerMs).calendar()}</p>
+                            <p>This tracker has a <strong>last poll age</strong> of {selectedTracker.lastPollAge}</p>
+                            <p>This tracker has a <strong>task count</strong> of {selectedTracker.taskCount}</p>
+                            <p>This tracker was <strong>last active</strong> {moment(selectedTracker.trackerMs).calendar().toLowerCase()}</p>
                             <p><em>Stream count: </em>{selectedTracker.streamCount}</p>
                             <p><em>Event count: </em>{selectedTracker.eventCount}</p>
                           </Grid.Column>
                           <Grid.Column textAlign='left'>
-                            <p><em>Created</em> by '{selectedTracker.createUser}' {moment(selectedTracker.createdOn).calendar().toLowerCase()}</p>
-                            <p><em>Updated</em> by '{selectedTracker.updateUser}' {moment(selectedTracker.updatedOn).calendar().toLowerCase()}</p>
+                            <p><strong>Created</strong> by '{selectedTracker.createUser}' {moment(selectedTracker.createdOn).calendar().toLowerCase()}</p>
+                            <p><strong>Updated</strong> by '{selectedTracker.updateUser}' {moment(selectedTracker.updatedOn).calendar().toLowerCase()}</p>
                           </Grid.Column>
                         </Grid>
                       </Card.Description>
@@ -224,7 +224,7 @@ class TrackerDashboard extends Component {
                               </Label>
                             </Table.Cell>
                             <Table.Cell className="progress-column" width={8}>
-                              <Progress percent={trackerPercent} indicating />
+                              <Progress indicating percent={trackerPercent}  />
                             </Table.Cell>
                           </Table.Row>
                       

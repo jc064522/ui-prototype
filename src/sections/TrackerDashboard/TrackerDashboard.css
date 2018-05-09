@@ -134,3 +134,12 @@
     border: 0px !important;
     padding-bottom: 10px !important;
 }
+
+/* This disables 'active' animation. This is the point of the 'active' class but 
+unfortunately it's applied when the 'indicating' class is added and there's noo 
+way to have the neat colourisation from 'indicating' without the 'active' class also being applied. So we need to stomp on the annoying animation here. */
+
+.ui.active.progress .bar::after {
+    -webkit-animation: none !important;
+    animation: none !important;
+}
