@@ -30,6 +30,10 @@ import './TrackerDashboard.css';
 
 class TrackerDashboard extends Component {
 
+  componentDidMount() {
+    this.context.store.dispatch(fetchTrackers())
+  }
+
   // Set up some defaults
   state = {
     showCompleted: false,
