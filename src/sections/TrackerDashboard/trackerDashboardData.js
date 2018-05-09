@@ -114,7 +114,8 @@ type Action = UpdateTrackerAction;
 
 
 export const updateSort = createAction('trackerDashboard_UPDATE_SORT')
-export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS',)
+export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS')
+export const updateEnabled = createAction('trackerDashboard_UPDATE_ENABLED',)
 
 const reducers = handleActions(
   {
@@ -125,6 +126,14 @@ const reducers = handleActions(
       sortDirection: action.payload.sortDirection
     }),
     trackerDashboard_UPDATE_TRACKERS: (state, action) => ({...state, trackers: action.payload}),
+    trackerDashboard_UPDATE_ENABLED: (state, action) => ({
+      ...state,
+       trackers: state.trackers.map(
+           (tracker, i) => 
+           tracker.filterId === action.payload.filterId ? 
+            {...tracker, enabled: action.payload.enabled}
+            : tracker)
+    })
   },
   initialState
 )
@@ -161,6 +170,33 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
     this
   });
 };
+
+export const enableToggle = (filterId: String, isCurrentlyEnabled: boolean): ThunkAction => (dispatch, getState) => {
+  const state = getState()
+  const jwsToken = state.authentication.idToken
+  let url =  `${state.config.streamTaskServiceUrl}/${filterId}`
+
+  fetch(url, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwsToken}`,
+    },
+    method: 'PATCH',
+    mode: 'cors',
+    body: JSON.stringify({op:"replace", path:"enabled", value:!isCurrentlyEnabled})
+  })
+  .then(handleStatus)
+  .then(response => {
+    dispatch(updateEnabled({filterId,enabled:!isCurrentlyEnabled}))
+  })
+  .catch(error => {
+    dispatch(push('/error'))
+    console.log('Unable to patch tracker!')
+    console.log(error)
+    this
+  });
+}
 
 
 function handleStatus (response) {
