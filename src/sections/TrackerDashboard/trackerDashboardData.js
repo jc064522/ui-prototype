@@ -115,7 +115,8 @@ type Action = UpdateTrackerAction;
 
 export const updateSort = createAction('trackerDashboard_UPDATE_SORT')
 export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS')
-export const updateEnabled = createAction('trackerDashboard_UPDATE_ENABLED',)
+export const updateEnabled = createAction('trackerDashboard_UPDATE_ENABLED')
+export const updateTrackerSelection = createAction('trackerDashboard_UPDATE_TRACKER_SELECTION')
 
 const reducers = handleActions(
   {
@@ -133,7 +134,8 @@ const reducers = handleActions(
            tracker.filterId === action.payload.filterId ? 
             {...tracker, enabled: action.payload.enabled}
             : tracker)
-    })
+    }),
+    trackerDashboard_UPDATE_TRACKER_SELECTION: (state, action) => ({...state, selectedTrackerId: action.payload})
   },
   initialState
 )
@@ -197,7 +199,6 @@ export const enableToggle = (filterId: String, isCurrentlyEnabled: boolean): Thu
     this
   });
 }
-
 
 function handleStatus (response) {
   if (response.status === 200) {

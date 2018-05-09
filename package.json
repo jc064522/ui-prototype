@@ -5,6 +5,7 @@
   "dependencies": {
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.1",
+    "mousetrap": "^1.6.1",
     "react": "^16.3.2",
     "react-datepicker": "^1.4.1",
     "react-dom": "^16.3.2",
