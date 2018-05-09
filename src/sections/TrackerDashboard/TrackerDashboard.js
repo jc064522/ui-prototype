@@ -24,18 +24,11 @@ import moment from 'moment';
 import { Grid, Form, Label, Table, Progress, Dimmer, Loader } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { fetchTrackers } from './trackerDashboardData';
+import { fetchTrackers, updateSort } from './trackerDashboardData';
 
 import './TrackerDashboard.css';
 
 class TrackerDashboard extends Component {
-  componentWillMount() {
-    this.context.store.dispatch(fetchTrackers({
-      sortBy: this.state.column,
-      sortDirection: this.state.direction,
-      showCompleted: this.state.showCompleted,
-    }));
-  }
 
   // Set up some defaults
   state = {
@@ -45,42 +38,8 @@ class TrackerDashboard extends Component {
   };
 
   handleShowCompletedToggle = (e, toggleProps) => {
-
     //TODO: dispatch fetch trackers with showCompleted
     this.setState({ showCompleted: toggleProps.checked });
-  };
-
-  handleSort = clickedColumn => () => {
-    //TODO: dispatch fetch trackers with sorting
-    // const { column, data, direction } = this.state;
-
-    // if (column !== clickedColumn) {
-    //   this.setState({
-    //     column: clickedColumn,
-    //     // data: _sortBy(data, [clickedColumn]),
-    //     data: data.sort((l, r) => l[clickedColumn] > r[clickedColumn]),
-    //     direction: 'ascending',
-    //   });
-
-    //   return;
-    // }
-
-    // this.setState({
-    //   data: data.reverse(),
-    //   direction: direction === 'ascending' ? 'descending' : 'ascending',
-    // });
-  };
-
-  handleFilterByNameChange = (e, inputProps) => {
-    //TODO: dispatch fetch trackers with filtering
-    // console.log(inputProps.value);
-    // this.context.store.dispatch(fetchTrackers({
-    //   sortBy: this.state.column,
-    //   sortDirection: this.state.direction,
-    //   showCompleted: this.state.showCompleted,
-    // }));
-    // TODO show Loader over the table
-    // TODO submit query
   };
 
   render() {
@@ -88,7 +47,7 @@ class TrackerDashboard extends Component {
       column, direction, showCompleted,
     } = this.state;
 
-    const { dimTable, trackers } = this.props;
+    const { dimTable, trackers, onHandleSort, sortBy, sortDirection } = this.props;
 
     return (
       <div className="App">
@@ -123,12 +82,24 @@ class TrackerDashboard extends Component {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell
-                    sorted={column === 'name' ? direction : null}
-                    onClick={this.handleSort('name')}
+                    sorted={sortBy === 'Pipeline' ? sortDirection : null}
+                    onClick={() => {
+                      if(sortBy === 'Pipeline'){
+                        if(sortDirection === 'ascending'){
+                          return onHandleSort('Pipeline', 'descending')
+                        }
+                        else {
+                          return onHandleSort('Pipeline', 'ascending')
+                        }
+                      }
+                      else {
+                        return onHandleSort('Pipeline', 'ascending')
+                      }
+                    }}
                   >
                     Name
                   </Table.HeaderCell>
-                  <Table.HeaderCell
+                  {/* <Table.HeaderCell
                     sorted={column === 'priority' ? direction : null}
                     onClick={this.handleSort('priority')}
                   >
@@ -139,7 +110,7 @@ class TrackerDashboard extends Component {
                     onClick={this.handleSort('progress')}
                   >
                     Progress
-                  </Table.HeaderCell>
+                  </Table.HeaderCell> */}
                 </Table.Row>
               </Table.Header>
 
@@ -182,11 +153,25 @@ TrackerDashboard.contextTypes = {
   store: PropTypes.object.isRequired,
 };
 
+TrackerDashboard.propTypes = {
+  onHandleSort: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => ({
   dimTable: state.trackerDashboard.isLoading,
-  trackers: state.trackerDashboard.trackers
+  trackers: state.trackerDashboard.trackers,
+  showCompleted: state.trackerDashboard.showCompleted,
+  sortBy: state.trackerDashboard.sortBy,
+  sortDirection: state.trackerDashboard.sortDirection
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch => {
+  return {
+    onHandleSort: (sortBy, sortDirection) => {
+      dispatch(updateSort({sortBy, sortDirection}))
+      dispatch(fetchTrackers())
+    }
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackerDashboard);

@@ -15,10 +15,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {createAction, createActions, handleActions } from 'redux-actions';
+
+import { push } from 'react-router-redux';
+
+import { HttpError } from '../../ErrorTypes'
+
+
+
+
+
+
+
+// This is just for the auth code -- TODO move it
+declare type AuthenticationState = {
+  idToken: string
+};
+
+// This is just for the Config code -- TODO Move it
+declare type ConfigState = {
+  streamTaskServiceUrl: string
+};
+
+// These are common to all thunks --TODO move it
+type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
+type GetState = () => StateRoot;
+type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+type PromiseAction = Promise<Action>;
+
+// This is common to all reducers --TODO move it
+declare type StateRoot = {
+  trackerDashboard: TrackerState,
+  authentication: AuthenticationState,
+  config: ConfigState
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS';
 
+
+
 const fetch = window.fetch;
+
+const directions = {ascending: "ascending", descending: "descending"}
+declare type Direction = $Keys<typeof directions>
+
+const sortByOptions = {pipeline: "Pipeline", priority: "Priority", progress: "TrackerMs"}
+declare type SortByOption = $Keys<typeof sortByOptions>
 
 declare type Tracker = {
   name: string,
@@ -26,33 +81,25 @@ declare type Tracker = {
   trackerPercentage: number
 };
 
-declare type AuthenticationState = {
-  idToken: string
-};
-
-declare type ConfigState = {
-  streamTaskServiceUrl: string
-};
-
-declare type StateRoot = {
-  tracherDash: TrackerState,
-  authentication: AuthenticationState,
-  config: ConfigState
-};
-
 type TrackerState = {
   +trackers: Array<Tracker>,
-  +isLoading: boolean
-};
+  +isLoading: boolean,
+  +showCompleted: boolean,
+  +sortBy: SortByOption, 
+  +sortDirection: Direction,
+  +pageSize: number,
+  +pageOffset: number
 
-type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
-type GetState = () => StateRoot;
-type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
-type PromiseAction = Promise<Action>;
+};
 
 const initialState: TrackerState = {
   trackers: [],
   isLoading: false,
+  showCompleted: false,
+  sortBy: "Pipeline",
+  sortDirection: "ascending",
+  pageSize: 10,
+  pageOffset: 0
 };
 
 type UpdateTrackerAction = {
@@ -62,37 +109,35 @@ type UpdateTrackerAction = {
 
 type Action = UpdateTrackerAction;
 
-export default (state: TrackerState = initialState, action: Action): TrackerState => {
-  switch (action.type) {
-    case UPDATE_TRACKERS:
-      return {
-        ...state,
-        trackers: action.trackers,
-      };
 
-    default:
-      return state;
-  }
-};
 
-function updateTrackers(value: Array<Tracker>): UpdateTrackerAction {
-  return { type: UPDATE_TRACKERS, trackers: value };
-}
 
-export const fetchTrackers = (query: {
-  page: number,
-  sortBy: string,
-  sortDirection: string,
-  nameFilter?: string
-}): ThunkAction => (dispatch, getState) => {
-  const jwsToken = getState().authentication.idToken;
-  let url = `${getState().config.streamTaskServiceUrl}/?
-    page=${query.page}
-    &sortBy=${query.sortBy}
-    &sortDirection=${query.sortDirection}`;
-  if (query.nameFilter) {
-    url = `${url}&nameFilter=${query.nameFilter ? '' : query.nameFilter}`;
-  }
+
+export const updateSort = createAction('trackerDashboard_UPDATE_SORT')
+export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS',)
+
+const reducers = handleActions(
+  {
+    trackerDashboard_UPDATE_SORT: (state, action) => (
+     {
+      ...state, 
+      sortBy: action.payload.sortBy, 
+      sortDirection: action.payload.sortDirection
+    }),
+    trackerDashboard_UPDATE_TRACKERS: (state, action) => ({...state, trackers: action.payload}),
+  },
+  initialState
+)
+
+export default reducers
+
+
+
+export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
+  const state = getState()
+  const jwsToken = state.authentication.idToken;
+
+  let url = `${state.config.streamTaskServiceUrl}/?offset=${state.trackerDashboard.pageOffset}&sortBy=${state.trackerDashboard.sortBy}&sortDirection=${state.trackerDashboard.sortDirection}`;
 
   fetch(url, {
     headers: {
@@ -102,11 +147,26 @@ export const fetchTrackers = (query: {
     },
     method: 'get',
     mode: 'cors',
-  }).then(response => response.json())
+  })
+  .then(handleStatus)
+  .then(response => response.json())
   .then(trackers => {
     dispatch(updateTrackers(trackers));
   })
   .catch(error => {
+    //TODO: handle a bad response from the service, i.e. send the use to an error
+    dispatch(push('/error'))
+    console.log('Unable to fetch trackers!')
     console.log(error)
+    this
   });
 };
+
+
+function handleStatus (response) {
+  if (response.status === 200) {
+    return Promise.resolve(response)
+  } else {
+    return Promise.reject(new HttpError(response.status, response.statusText))
+  }
+}

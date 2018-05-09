@@ -21,6 +21,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Home from 'sections/Home';
+import ErrorPage from 'sections/ErrorPage'
 import OriginalList from 'prototypes/OriginalList';
 import Graph from 'prototypes/Graph';
 import TrackerDashboard from 'sections/TrackerDashboard';
@@ -53,6 +54,7 @@ class Routes extends Component {
 
             {/* Application routes - no authentication required */}
             <Route exact path="/" component={Home} />
+            <Route exact path="/error" component={ErrorPage} />
             <Route exact path="/prototypes/original_list" component={OriginalList} />
             <Route exact path="/prototypes/graph" component={Graph} />
 
