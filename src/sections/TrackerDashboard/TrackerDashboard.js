@@ -132,19 +132,33 @@ class TrackerDashboard extends Component {
                             </Table>
                       </Card.Header>
 
+
+                      <Card.Meta>
+                        This tracker:
+                      </Card.Meta>
                       <Card.Description>
-                        <Grid centered divided columns={2}>
+                        <Grid centered divided columns={3}>
                           <Grid.Column textAlign='left'>
-                            <p><em>status: </em>{selectedTracker.status ? selectedTracker.status : 'No status'}</p>
-                            <p>This tracker has a <strong>last poll age</strong> of {selectedTracker.lastPollAge}</p>
-                            <p>This tracker has a <strong>task count</strong> of {selectedTracker.taskCount}</p>
-                            <p>This tracker was <strong>last active</strong> {moment(selectedTracker.trackerMs).calendar().toLowerCase()}</p>
-                            <p><em>Stream count: </em>{selectedTracker.streamCount}</p>
-                            <p><em>Event count: </em>{selectedTracker.eventCount}</p>
+                            <List bulleted>
+                              <List.Item>has a <strong>last poll age</strong> of {selectedTracker.lastPollAge}</List.Item>
+                              <List.Item>has a <strong>task count</strong> of {selectedTracker.taskCount}</List.Item>
+                              <List.Item>was <strong>last active</strong> {moment(selectedTracker.trackerMs).calendar().toLowerCase()}</List.Item>
+                            </List>
+                          </Grid.Column>
+                          <Grid.Column>
+                            <List bulleted>
+                              <List.Item>{selectedTracker.status ? 'has a' : 'does not have a'} <strong>status</strong>{selectedTracker.status ? ' of ' + selectedTracker.status : undefined}</List.Item>
+                              <List.Item>
+                              {selectedTracker.streamCount ? 'has a' : 'does not have a'} <strong>stream count</strong>{selectedTracker.streamCount ? ' of ' + selectedTracker.streamCount : undefined}</List.Item>
+                              <List.Item>{selectedTracker.eventCount ? 'has an' : 'does not have an'} <strong>event count</strong>{selectedTracker.eventCount ? ' of ' + selectedTracker.eventCount : undefined}</List.Item>
+                            </List>
+
                           </Grid.Column>
                           <Grid.Column textAlign='left'>
-                            <p><strong>Created</strong> by '{selectedTracker.createUser}' {moment(selectedTracker.createdOn).calendar().toLowerCase()}</p>
-                            <p><strong>Updated</strong> by '{selectedTracker.updateUser}' {moment(selectedTracker.updatedOn).calendar().toLowerCase()}</p>
+                            <List bulleted>
+                              <List.Item>was <strong>created</strong> by '{selectedTracker.createUser}' {moment(selectedTracker.createdOn).calendar().toLowerCase()}</List.Item>
+                              <List.Item>was <strong>updated</strong> by '{selectedTracker.updateUser}' {moment(selectedTracker.updatedOn).calendar().toLowerCase()}</List.Item>
+                            </List> 
                           </Grid.Column>
                         </Grid>
                       </Card.Description>
