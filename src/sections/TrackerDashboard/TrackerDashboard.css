@@ -143,3 +143,12 @@ way to have the neat colourisation from 'indicating' without the 'active' class 
     -webkit-animation: none !important;
     animation: none !important;
 }
+
+.details-container {
+    position: relative;
+}
+
+.details-content {
+    top: 50%;
+    transform: translateY(50%);
+}

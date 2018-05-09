@@ -107,8 +107,8 @@ class TrackerDashboard extends Component {
             <Dimmer.Dimmable blurring dimmed={showDetails}>
               <Dimmer inverted active={showDetails} onClickOutside={() => onHandleTrackerSelection(undefined)}>
                 {selectedTracker ? (
-                  <div>
-                    <Card.Group centered>
+                  <div className='details-container'>
+                  <Card.Group centered className='details-content'>
                   <Card fluid>
                     <Card.Content>
                       {/* <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' /> */}
