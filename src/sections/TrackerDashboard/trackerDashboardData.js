@@ -72,7 +72,7 @@ const fetch = window.fetch;
 export const directions = {ascending: "ascending", descending: "descending"}
 declare type Direction = $Keys<typeof directions>
 
-export const sortByOptions = {pipeline: "Pipeline", priority: "Priority", progress: "TrackerMs"}
+export const sortByOptions = {pipeline: "Pipeline", priority: "Priority", progress: "progress"}
 declare type SortByOption = $Keys<typeof sortByOptions>
 
 declare type Tracker = {

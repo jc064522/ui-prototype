@@ -107,18 +107,12 @@ class TrackerDashboard extends Component {
                   >
                     Priority
                   </Table.HeaderCell>
-                  {/* <Table.HeaderCell
-                    sorted={column === 'priority' ? direction : null}
-                    onClick={this.handleSort('priority')}
-                  >
-                    Priority
-                  </Table.HeaderCell>
                   <Table.HeaderCell
-                    sorted={column === 'progress' ? direction : null}
-                    onClick={this.handleSort('progress')}
+                    sorted={sortBy === sortByOptions.progress ? sortDirection : null}
+                    onClick={() => this.handleSort(sortByOptions.progress, sortBy, sortDirection)}
                   >
                     Progress
-                  </Table.HeaderCell> */}
+                  </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
