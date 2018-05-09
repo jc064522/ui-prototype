@@ -36,9 +36,7 @@ class TrackerDashboard extends Component {
 
   // Set up some defaults
   state = {
-    showCompleted: false,
-    column: 'progress',
-    direction: 'descending'
+    showCompleted: false
   };
 
   handleShowCompletedToggle = (e, toggleProps) => {
@@ -102,6 +100,12 @@ class TrackerDashboard extends Component {
                     onClick={() => this.handleSort(sortByOptions.pipeline, sortBy, sortDirection)}
                   >
                     Name
+                  </Table.HeaderCell>
+                  <Table.HeaderCell
+                    sorted={sortBy === sortByOptions.priority ? sortDirection : null}
+                    onClick={() => this.handleSort(sortByOptions.priority, sortBy, sortDirection)}
+                  >
+                    Priority
                   </Table.HeaderCell>
                   {/* <Table.HeaderCell
                     sorted={column === 'priority' ? direction : null}
