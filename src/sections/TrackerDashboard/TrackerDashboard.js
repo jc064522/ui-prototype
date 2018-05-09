@@ -92,9 +92,9 @@ class TrackerDashboard extends Component {
               <Loader size="medium" />
             </Dimmer>
 
-            <Table sortable basic="very" className="tracker-table">
+            <Table selectable sortable basic="very" className="tracker-table">
               <Table.Header>
-                <Table.Row>
+                <Table.Row >
                   <Table.HeaderCell
                     sorted={sortBy === sortByOptions.pipeline ? sortDirection : null}
                     onClick={() => this.handleSort(sortByOptions.pipeline, sortBy, sortDirection)}
@@ -140,7 +140,7 @@ class TrackerDashboard extends Component {
                     <Popup
                       key={pipelineName}
                       trigger={
-                        <Table.Row >
+                        <Table.Row className="tracker-row">
                           <Table.Cell className="name-column" textAlign="right" width={7}>
                             {pipelineName}
                           </Table.Cell>
