@@ -24,7 +24,7 @@ import moment from 'moment';
 import { Grid, Form, Label, Table, Progress, Dimmer, Loader } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { fetchTrackers, updateSort } from './trackerDashboardData';
+import { fetchTrackers, updateSort, sortByOptions, directions } from './trackerDashboardData';
 
 import './TrackerDashboard.css';
 
@@ -46,10 +46,22 @@ class TrackerDashboard extends Component {
     this.setState({ showCompleted: toggleProps.checked });
   };
 
+  handleSort(newSortBy, currentSortBy, currentDirection) {
+    if(currentSortBy === newSortBy){
+      if(currentDirection === directions.ascending){
+        return this.props.onHandleSort(newSortBy, directions.descending)
+      }
+      else {
+        return this.props.onHandleSort(newSortBy, directions.ascending)
+      }
+    }
+    else {
+      return this.props.onHandleSort(newSortBy, directions.ascending)
+    }
+  }
+
   render() {
-    const {
-      column, direction, showCompleted,
-    } = this.state;
+    const { showCompleted } = this.state;
 
     const { dimTable, trackers, onHandleSort, sortBy, sortDirection } = this.props;
 
@@ -86,20 +98,8 @@ class TrackerDashboard extends Component {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell
-                    sorted={sortBy === 'Pipeline' ? sortDirection : null}
-                    onClick={() => {
-                      if(sortBy === 'Pipeline'){
-                        if(sortDirection === 'ascending'){
-                          return onHandleSort('Pipeline', 'descending')
-                        }
-                        else {
-                          return onHandleSort('Pipeline', 'ascending')
-                        }
-                      }
-                      else {
-                        return onHandleSort('Pipeline', 'ascending')
-                      }
-                    }}
+                    sorted={sortBy === sortByOptions.pipeline ? sortDirection : null}
+                    onClick={() => this.handleSort(sortByOptions.pipeline, sortBy, sortDirection)}
                   >
                     Name
                   </Table.HeaderCell>

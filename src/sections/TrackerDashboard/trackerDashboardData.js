@@ -69,10 +69,10 @@ export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS';
 
 const fetch = window.fetch;
 
-const directions = {ascending: "ascending", descending: "descending"}
+export const directions = {ascending: "ascending", descending: "descending"}
 declare type Direction = $Keys<typeof directions>
 
-const sortByOptions = {pipeline: "Pipeline", priority: "Priority", progress: "TrackerMs"}
+export const sortByOptions = {pipeline: "Pipeline", priority: "Priority", progress: "TrackerMs"}
 declare type SortByOption = $Keys<typeof sortByOptions>
 
 declare type Tracker = {
