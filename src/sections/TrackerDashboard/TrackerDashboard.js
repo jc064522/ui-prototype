@@ -25,7 +25,7 @@ import moment from 'moment';
 import { Grid, Form, Label, Table, Progress, Dimmer, Loader, Button, Popup, Header, Checkbox, List, Segment, Modal, Card } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection } from './trackerDashboardData';
+import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection } from './trackerDashboardData';
 
 import TrackerDetails from './TrackerDetails'
 import './TrackerDashboard.css';
@@ -63,18 +63,14 @@ class TrackerDashboard extends Component {
   render() {
     const { showCompleted } = this.state;
 
-    const { dimTable, trackers, onHandleSort, sortBy, sortDirection, onHandleEnableToggle, selectedTrackerId, onHandleTrackerSelection } = this.props;
+    const { dimTable, trackers, onHandleSort, sortBy, sortDirection, onHandleEnableToggle, selectedTrackerId, onHandleTrackerSelection, onMoveSelection } = this.props;
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
 
-    // Set up hotkeys because anything else would be nasty
-    // if(showDetails){
-    //   Mousetrap.bind('esc', () => onHandleTrackerSelection(undefined));
-    // }
-    // else{
-    //   Mousetrap.unbind('esc');
-    // }
+    // Set up hotkeys to move the selection up and down
+    Mousetrap.bind('up', () => onMoveSelection('up'));
+    Mousetrap.bind('down', () => onMoveSelection('down'));
 
     return (
       <div className="App">
@@ -147,7 +143,7 @@ class TrackerDashboard extends Component {
                       lastPollAge, taskCount, trackerMs,  streamCount, eventCount
                     }) => (
 
-                          <Table.Row key={filterId} className="tracker-row"  onClick={() => onHandleTrackerSelection(filterId)}>
+                          <Table.Row key={filterId} className="tracker-row"  onClick={() => onHandleTrackerSelection(filterId)} active={selectedTrackerId === filterId}>
                             <Table.Cell className="name-column" textAlign="right" width={7}>
                               {pipelineName}
                             </Table.Cell>
@@ -180,7 +176,8 @@ TrackerDashboard.contextTypes = {
 
 TrackerDashboard.propTypes = {
   onHandleSort: PropTypes.func.isRequired,
-  onHandleEnableToggle: PropTypes.func.isRequired
+  onHandleEnableToggle: PropTypes.func.isRequired,
+  onMoveSelection: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -203,7 +200,8 @@ const mapDispatchToProps = dispatch => {
     },
     onHandleTrackerSelection: (filterId) => {
       dispatch(updateTrackerSelection(filterId))
-    }
+    },
+    onMoveSelection: (direction) => {dispatch(moveSelection(direction))}
   }
 };
 

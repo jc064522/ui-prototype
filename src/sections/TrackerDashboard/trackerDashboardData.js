@@ -15,17 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {createAction, createActions, handleActions } from 'redux-actions';
+import { createAction, createActions, handleActions } from 'redux-actions';
 
 import { push } from 'react-router-redux';
 
-import { HttpError } from '../../ErrorTypes'
-
-
-
-
-
-
+import { HttpError } from '../../ErrorTypes';
 
 // This is just for the auth code -- TODO move it
 declare type AuthenticationState = {
@@ -50,30 +44,15 @@ declare type StateRoot = {
   config: ConfigState
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS';
-
-
 
 const fetch = window.fetch;
 
-export const directions = {ascending: "ascending", descending: "descending"}
-declare type Direction = $Keys<typeof directions>
+export const directions = { ascending: 'ascending', descending: 'descending' };
+declare type Direction = $Keys<typeof directions>;
 
-export const sortByOptions = {pipeline: "Pipeline", priority: "Priority", progress: "progress"}
-declare type SortByOption = $Keys<typeof sortByOptions>
+export const sortByOptions = { pipeline: 'Pipeline', priority: 'Priority', progress: 'progress' };
+declare type SortByOption = $Keys<typeof sortByOptions>;
 
 declare type Tracker = {
   name: string,
@@ -85,21 +64,20 @@ type TrackerState = {
   +trackers: Array<Tracker>,
   +isLoading: boolean,
   +showCompleted: boolean,
-  +sortBy: SortByOption, 
+  +sortBy: SortByOption,
   +sortDirection: Direction,
   +pageSize: number,
   +pageOffset: number
-
 };
 
 const initialState: TrackerState = {
   trackers: [],
   isLoading: false,
   showCompleted: false,
-  sortBy: "Pipeline",
-  sortDirection: "ascending",
+  sortBy: 'Pipeline',
+  sortDirection: 'ascending',
   pageSize: 10,
-  pageOffset: 0
+  pageOffset: 0,
 };
 
 type UpdateTrackerAction = {
@@ -109,46 +87,74 @@ type UpdateTrackerAction = {
 
 type Action = UpdateTrackerAction;
 
-
-
-
-
-export const updateSort = createAction('trackerDashboard_UPDATE_SORT')
-export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS')
-export const updateEnabled = createAction('trackerDashboard_UPDATE_ENABLED')
-export const updateTrackerSelection = createAction('trackerDashboard_UPDATE_TRACKER_SELECTION')
+export const updateSort = createAction('trackerDashboard_UPDATE_SORT');
+export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS');
+export const updateEnabled = createAction('trackerDashboard_UPDATE_ENABLED');
+export const updateTrackerSelection = createAction('trackerDashboard_UPDATE_TRACKER_SELECTION');
+export const moveSelectionUp = createAction('MOVE_SELECTION_UP');
+export const moveSelectionDown = createAction('MOVE_SELECTION_DOWN');
+export const moveSelection = createAction('MOVE_SELECTION');
 
 const reducers = handleActions(
   {
-    trackerDashboard_UPDATE_SORT: (state, action) => (
-     {
-      ...state, 
-      sortBy: action.payload.sortBy, 
-      sortDirection: action.payload.sortDirection
+    trackerDashboard_UPDATE_SORT: (state, action) => ({
+      ...state,
+      sortBy: action.payload.sortBy,
+      sortDirection: action.payload.sortDirection,
     }),
-    trackerDashboard_UPDATE_TRACKERS: (state, action) => ({...state, trackers: action.payload}),
+    trackerDashboard_UPDATE_TRACKERS: (state, action) => ({ ...state, trackers: action.payload }),
     trackerDashboard_UPDATE_ENABLED: (state, action) => ({
       ...state,
-       trackers: state.trackers.map(
-           (tracker, i) => 
-           tracker.filterId === action.payload.filterId ? 
-            {...tracker, enabled: action.payload.enabled}
-            : tracker)
+      // TODO: use a filter then a map
+      trackers: state.trackers.map((tracker, i) =>
+        (tracker.filterId === action.payload.filterId
+          ? { ...tracker, enabled: action.payload.enabled }
+          : tracker)),
     }),
-    trackerDashboard_UPDATE_TRACKER_SELECTION: (state, action) => ({...state, selectedTrackerId: action.payload})
+    trackerDashboard_UPDATE_TRACKER_SELECTION: (state, action) => ({
+      ...state,
+      selectedTrackerId: action.payload,
+    }),
+    MOVE_SELECTION: (state, action) => {
+      const currentIndex = state.trackers.findIndex(tracker => tracker.filterId === state.selectedTrackerId);
+
+      let nextSelectedId;
+      if (currentIndex === -1) {
+        // There's no selection so we'll leave the selection as undefined
+      } else {
+        if(action.payload.toLowerCase() === 'up'){
+          if (currentIndex === 0) {
+            nextSelectedId = state.trackers[currentIndex].filterId;
+          } else {
+            nextSelectedId = state.trackers[currentIndex -1].filterId;
+          }
+        }
+        else {
+          if (currentIndex === state.trackers.length - 1) {
+            nextSelectedId = state.trackers[currentIndex].filterId;
+          } else {
+            nextSelectedId = state.trackers[currentIndex + 1].filterId;
+          }
+        }
+      }
+      return {
+        ...state,
+        selectedTrackerId: nextSelectedId,
+      };
+    },
   },
-  initialState
-)
+  initialState,
+);
 
-export default reducers
-
-
+export default reducers;
 
 export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
-  const state = getState()
+  const state = getState();
   const jwsToken = state.authentication.idToken;
 
-  let url = `${state.config.streamTaskServiceUrl}/?offset=${state.trackerDashboard.pageOffset}&sortBy=${state.trackerDashboard.sortBy}&sortDirection=${state.trackerDashboard.sortDirection}`;
+  const url = `${state.config.streamTaskServiceUrl}/?offset=${
+    state.trackerDashboard.pageOffset
+  }&sortBy=${state.trackerDashboard.sortBy}&sortDirection=${state.trackerDashboard.sortDirection}`;
 
   fetch(url, {
     headers: {
@@ -159,24 +165,27 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
     method: 'get',
     mode: 'cors',
   })
-  .then(handleStatus)
-  .then(response => response.json())
-  .then(trackers => {
-    dispatch(updateTrackers(trackers));
-  })
-  .catch(error => {
-    //TODO: handle a bad response from the service, i.e. send the use to an error
-    dispatch(push('/error'))
-    console.log('Unable to fetch trackers!')
-    console.log(error)
-    this
-  });
+    .then(handleStatus)
+    .then(response => response.json())
+    .then((trackers) => {
+      dispatch(updateTrackers(trackers));
+    })
+    .catch((error) => {
+      // TODO: handle a bad response from the service, i.e. send the use to an error
+      dispatch(push('/error'));
+      console.log('Unable to fetch trackers!');
+      console.log(error);
+      this;
+    });
 };
 
-export const enableToggle = (filterId: String, isCurrentlyEnabled: boolean): ThunkAction => (dispatch, getState) => {
-  const state = getState()
-  const jwsToken = state.authentication.idToken
-  let url =  `${state.config.streamTaskServiceUrl}/${filterId}`
+export const enableToggle = (filterId: String, isCurrentlyEnabled: boolean): ThunkAction => (
+  dispatch,
+  getState,
+) => {
+  const state = getState();
+  const jwsToken = state.authentication.idToken;
+  const url = `${state.config.streamTaskServiceUrl}/${filterId}`;
 
   fetch(url, {
     headers: {
@@ -186,24 +195,23 @@ export const enableToggle = (filterId: String, isCurrentlyEnabled: boolean): Thu
     },
     method: 'PATCH',
     mode: 'cors',
-    body: JSON.stringify({op:"replace", path:"enabled", value:!isCurrentlyEnabled})
+    body: JSON.stringify({ op: 'replace', path: 'enabled', value: !isCurrentlyEnabled }),
   })
-  .then(handleStatus)
-  .then(response => {
-    dispatch(updateEnabled({filterId,enabled:!isCurrentlyEnabled}))
-  })
-  .catch(error => {
-    dispatch(push('/error'))
-    console.log('Unable to patch tracker!')
-    console.log(error)
-    this
-  });
-}
+    .then(handleStatus)
+    .then((response) => {
+      dispatch(updateEnabled({ filterId, enabled: !isCurrentlyEnabled }));
+    })
+    .catch((error) => {
+      dispatch(push('/error'));
+      console.log('Unable to patch tracker!');
+      console.log(error);
+      this;
+    });
+};
 
-function handleStatus (response) {
+function handleStatus(response) {
   if (response.status === 200) {
-    return Promise.resolve(response)
-  } else {
-    return Promise.reject(new HttpError(response.status, response.statusText))
+    return Promise.resolve(response);
   }
+  return Promise.reject(new HttpError(response.status, response.statusText));
 }
