@@ -51,7 +51,7 @@ const fetch = window.fetch;
 export const directions = { ascending: 'ascending', descending: 'descending' };
 declare type Direction = $Keys<typeof directions>;
 
-export const sortByOptions = { pipeline: 'Pipeline', priority: 'Priority', progress: 'progress' };
+export const sortByOptions = { Pipeline: 'Pipeline', Priority: 'Priority', Progress: 'progress' };
 declare type SortByOption = $Keys<typeof sortByOptions>;
 
 declare type Tracker = {
@@ -67,7 +67,8 @@ type TrackerState = {
   +sortBy: SortByOption,
   +sortDirection: Direction,
   +pageSize: number,
-  +pageOffset: number
+  +pageOffset: number,
+  +searchCriteria: string
 };
 
 const initialState: TrackerState = {
@@ -153,9 +154,17 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
   const state = getState();
   const jwsToken = state.authentication.idToken;
 
-  const url = `${state.config.streamTaskServiceUrl}/?offset=${
-    state.trackerDashboard.pageOffset
-  }&sortBy=${state.trackerDashboard.sortBy}&sortDirection=${state.trackerDashboard.sortDirection}`;
+  let url = `${state.config.streamTaskServiceUrl}/?`;
+  url += `offset=${state.trackerDashboard.pageOffset}`;
+  url += `&sortBy=${state.trackerDashboard.sortBy}`;
+  url += `&sortDirection=${state.trackerDashboard.sortDirection}`;
+
+  if (
+    state.trackerDashboard.searchCriteria !== '' &&
+    state.trackerDashboard.searchCriteria !== undefined
+  ) {
+    url += `&filter=${state.trackerDashboard.searchCriteria}`;
+  }
 
   fetch(url, {
     headers: {

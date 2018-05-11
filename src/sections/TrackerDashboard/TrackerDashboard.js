@@ -59,7 +59,7 @@ class TrackerDashboard extends Component {
       return this.props.onHandleSort(newSortBy, directions.ascending)
     }
   }
-
+  
   render() {
     const { showCompleted } = this.state;
 
@@ -200,8 +200,8 @@ const mapDispatchToProps = dispatch => {
     },
     onMoveSelection: (direction) => {dispatch(moveSelection(direction))},
     onHandleSearchChange: (data) => {
-      console.log(data)
       dispatch(updateSearchCriteria(data.value))
+      dispatch(fetchTrackers())
     },
     onHandleSearch: (event) => {
       if(event.key === 'Enter' || event === undefined){
