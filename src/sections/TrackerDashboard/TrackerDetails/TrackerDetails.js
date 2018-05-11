@@ -29,6 +29,10 @@ import 'semantic-ui-css/semantic.min.css';
 import { enableToggle, updateTrackerSelection } from '../trackerDashboardData';
 
 class TrackerDetails extends Component {
+  truncate(text, limit) {
+    return text.length > limit ? `${text.substr(0, limit)}...` : text;
+  }
+
   render() {
     const { selectedTracker, onHandleEnableToggle, onHandleTrackerSelection } = this.props;
     if (selectedTracker !== undefined) {
@@ -58,7 +62,7 @@ class TrackerDetails extends Component {
                 </Table.Cell>
 
                 <Table.Cell className="name-column" textAlign="right" width={5}>
-                  <Header as="h3">{selectedTracker.pipelineName}</Header>
+                  <Header as="h3">{this.truncate(selectedTracker.pipelineName, 25)}</Header>
                 </Table.Cell>
                 <Table.Cell className="priority-column" textAlign="center" width={1}>
                   <Label circular color="green">
