@@ -201,10 +201,11 @@ const mapDispatchToProps = dispatch => {
     onMoveSelection: (direction) => {dispatch(moveSelection(direction))},
     onHandleSearchChange: (data) => {
       dispatch(updateSearchCriteria(data.value))
+      // This line enables search as you type. Whether we want it or not depends on performance
       dispatch(fetchTrackers())
     },
     onHandleSearch: (event) => {
-      if(event.key === 'Enter' || event === undefined){
+      if(event === undefined || event.key === 'Enter'){
         dispatch(fetchTrackers())
       }
     }
