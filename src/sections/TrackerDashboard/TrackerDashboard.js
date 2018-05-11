@@ -72,6 +72,7 @@ class TrackerDashboard extends Component {
     Mousetrap.bind('up', () => onMoveSelection('up'));
     Mousetrap.bind('down', () => onMoveSelection('down'));
     Mousetrap.bind('esc', () => onHandleTrackerSelection(undefined));
+    Mousetrap.bind('ctrl+shift+f', () => this.searchInputRef.focus())
     Mousetrap.bind('enter', () => onHandleSearch())
     Mousetrap.bind('return', () => onHandleSearch())
 
@@ -86,7 +87,9 @@ class TrackerDashboard extends Component {
               value={searchCriteria} 
               onChange={(event, data) => onHandleSearchChange(data)} 
               onKeyPress={(event, data) => onHandleSearch(event, data)} 
-              action={<Button onClick={() => onHandleSearch()}>Search</Button >} />
+              action={<Button onClick={() => onHandleSearch()}>Search</Button >} 
+              // We can set the ref to 'this', which means we can call this.searchInputRef.focus() elsewhere.
+              ref={(input) => this.searchInputRef = input}/>
             </Menu.Menu>
           </Menu>
 
