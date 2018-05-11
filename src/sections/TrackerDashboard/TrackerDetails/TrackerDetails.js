@@ -56,10 +56,14 @@ class TrackerDetails extends Component {
                   </Table>
                 </Card.Header>
 
-                <Card.Meta>This tracker:</Card.Meta>
                 <Card.Description>
                   <Grid centered divided columns={3}>
-                    <Grid.Column textAlign="left">
+                    <Grid.Column textAlign="left" width={10}>
+                      {selectedTracker.filterXml}
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                      <Card.Meta>This tracker:</Card.Meta>
+
                       <List bulleted>
                         <List.Item>
                           has a <strong>last poll age</strong> of {selectedTracker.lastPollAge}
@@ -73,10 +77,6 @@ class TrackerDetails extends Component {
                             .calendar()
                             .toLowerCase()}
                         </List.Item>
-                      </List>
-                    </Grid.Column>
-                    <Grid.Column>
-                      <List bulleted>
                         <List.Item>
                           {selectedTracker.status ? 'has a' : 'does not have a'}{' '}
                           <strong>status</strong>
@@ -96,10 +96,6 @@ class TrackerDetails extends Component {
                             ? ` of ${selectedTracker.eventCount}`
                             : undefined}
                         </List.Item>
-                      </List>
-                    </Grid.Column>
-                    <Grid.Column textAlign="left">
-                      <List bulleted>
                         <List.Item>
                           was <strong>created</strong> by '{selectedTracker.createUser}'{' '}
                           {moment(selectedTracker.createdOn)
