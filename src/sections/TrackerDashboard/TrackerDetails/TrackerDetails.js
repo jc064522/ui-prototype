@@ -21,6 +21,7 @@ import {
   Segment,
   Modal,
   Card,
+  Divider,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -32,108 +33,86 @@ class TrackerDetails extends Component {
     if (selectedTracker !== undefined) {
       return (
         <div className="details-container">
-          <Card.Group centered className="details-content">
-            <Card fluid>
-              <Card.Content>
-                {/* <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' /> */}
-                <Card.Header>
-                  <Table className="tracker-details-table">
-                    <Table.Body>
-                      <Table.Row className="tracker-row">
-                        <Table.Cell className="name-column" textAlign="right" width={7}>
-                          {selectedTracker.pipelineName}
-                        </Table.Cell>
-                        <Table.Cell className="priority-column" textAlign="center" width={1}>
-                          <Label circular color="green">
-                            {selectedTracker.priority}
-                          </Label>
-                        </Table.Cell>
-                        <Table.Cell className="progress-column" width={8}>
-                          <Progress percent={selectedTracker.trackerPercent} indicating />
-                        </Table.Cell>
-                      </Table.Row>
-                    </Table.Body>
-                  </Table>
-                </Card.Header>
+          <Divider />
+          <Table className="tracker-details-table">
+            <Table.Body>
+              <Table.Row className="tracker-row">
+                <Table.Cell className="name-column" textAlign="right" width={7}>
+                  <Header>{selectedTracker.pipelineName}</Header>
+                </Table.Cell>
+                <Table.Cell className="priority-column" textAlign="center" width={1}>
+                  <Label circular color="green">
+                    {selectedTracker.priority}
+                  </Label>
+                </Table.Cell>
+                <Table.Cell className="progress-column" width={8}>
+                  <Progress percent={selectedTracker.trackerPercent} indicating />
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
 
-                <Card.Description>
-                  <Grid centered divided columns={3}>
-                    <Grid.Column textAlign="left" width={10}>
-                      {selectedTracker.filterXml}
-                    </Grid.Column>
-                    <Grid.Column width={6}>
-                      <Card.Meta>This tracker:</Card.Meta>
+          <Grid centered divided columns={3}>
+            <Grid.Column textAlign="left" width={10}>
+              {selectedTracker.filterXml}
+            </Grid.Column>
+            <Grid.Column width={6}>
+              <Card.Meta>This tracker:</Card.Meta>
 
-                      <List bulleted>
-                        <List.Item>
-                          has a <strong>last poll age</strong> of {selectedTracker.lastPollAge}
-                        </List.Item>
-                        <List.Item>
-                          has a <strong>task count</strong> of {selectedTracker.taskCount}
-                        </List.Item>
-                        <List.Item>
-                          was <strong>last active</strong>{' '}
-                          {moment(selectedTracker.trackerMs)
-                            .calendar()
-                            .toLowerCase()}
-                        </List.Item>
-                        <List.Item>
-                          {selectedTracker.status ? 'has a' : 'does not have a'}{' '}
-                          <strong>status</strong>
-                          {selectedTracker.status ? ` of ${selectedTracker.status}` : undefined}
-                        </List.Item>
-                        <List.Item>
-                          {selectedTracker.streamCount ? 'has a' : 'does not have a'}{' '}
-                          <strong>stream count</strong>
-                          {selectedTracker.streamCount
-                            ? ` of ${selectedTracker.streamCount}`
-                            : undefined}
-                        </List.Item>
-                        <List.Item>
-                          {selectedTracker.eventCount ? 'has an' : 'does not have an'}{' '}
-                          <strong>event count</strong>
-                          {selectedTracker.eventCount
-                            ? ` of ${selectedTracker.eventCount}`
-                            : undefined}
-                        </List.Item>
-                        <List.Item>
-                          was <strong>created</strong> by '{selectedTracker.createUser}'{' '}
-                          {moment(selectedTracker.createdOn)
-                            .calendar()
-                            .toLowerCase()}
-                        </List.Item>
-                        <List.Item>
-                          was <strong>updated</strong> by '{selectedTracker.updateUser}'{' '}
-                          {moment(selectedTracker.updatedOn)
-                            .calendar()
-                            .toLowerCase()}
-                        </List.Item>
-                      </List>
-                    </Grid.Column>
-                  </Grid>
-                </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <Grid>
-                  <Grid.Column width={8}>
-                    <Checkbox
-                      toggle
-                      label="Enabled?"
-                      checked={selectedTracker.enabled}
-                      onMouseDown={() =>
-                        onHandleEnableToggle(selectedTracker.filterId, selectedTracker.enabled)
-                      }
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={8}>
-                    <Button basic color="green" onClick={() => onHandleTrackerSelection(undefined)}>
-                      DISMISS
-                    </Button>
-                  </Grid.Column>
-                </Grid>
-              </Card.Content>
-            </Card>
-          </Card.Group>
+              <List bulleted>
+                <List.Item>
+                  has a <strong>last poll age</strong> of {selectedTracker.lastPollAge}
+                </List.Item>
+                <List.Item>
+                  has a <strong>task count</strong> of {selectedTracker.taskCount}
+                </List.Item>
+                <List.Item>
+                  was <strong>last active</strong>{' '}
+                  {moment(selectedTracker.trackerMs)
+                    .calendar()
+                    .toLowerCase()}
+                </List.Item>
+                <List.Item>
+                  {selectedTracker.status ? 'has a' : 'does not have a'} <strong>status</strong>
+                  {selectedTracker.status ? ` of ${selectedTracker.status}` : undefined}
+                </List.Item>
+                <List.Item>
+                  {selectedTracker.streamCount ? 'has a' : 'does not have a'}{' '}
+                  <strong>stream count</strong>
+                  {selectedTracker.streamCount ? ` of ${selectedTracker.streamCount}` : undefined}
+                </List.Item>
+                <List.Item>
+                  {selectedTracker.eventCount ? 'has an' : 'does not have an'}{' '}
+                  <strong>event count</strong>
+                  {selectedTracker.eventCount ? ` of ${selectedTracker.eventCount}` : undefined}
+                </List.Item>
+                <List.Item>
+                  was <strong>created</strong> by '{selectedTracker.createUser}'{' '}
+                  {moment(selectedTracker.createdOn)
+                    .calendar()
+                    .toLowerCase()}
+                </List.Item>
+                <List.Item>
+                  was <strong>updated</strong> by '{selectedTracker.updateUser}'{' '}
+                  {moment(selectedTracker.updatedOn)
+                    .calendar()
+                    .toLowerCase()}
+                </List.Item>
+              </List>
+            </Grid.Column>
+          </Grid>
+
+          <Checkbox
+            toggle
+            label="Enabled?"
+            checked={selectedTracker.enabled}
+            onMouseDown={() =>
+              onHandleEnableToggle(selectedTracker.filterId, selectedTracker.enabled)
+            }
+          />
+          <Button basic color="green" onClick={() => onHandleTrackerSelection(undefined)}>
+            DISMISS
+          </Button>
         </div>
       );
     }

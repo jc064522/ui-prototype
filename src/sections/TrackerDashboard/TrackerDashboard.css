@@ -49,6 +49,8 @@
 
 .tracker-dashboard {
     height: 100%;
+    position: relative;
+    min-height: 150px;
 }
 
 #root {
@@ -128,6 +130,13 @@ way to have the neat colourisation from 'indicating' without the 'active' class 
     width: 100% !important;
 }
 
-/* .tracker-dashboard .details-container {
-    height: 442px;
-} */
+.tracker-dashboard .details-container {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.tracker-dashboard .details-container .card {
+    padding: 0px !important;
+}

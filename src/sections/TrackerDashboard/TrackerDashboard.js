@@ -82,26 +82,6 @@ class TrackerDashboard extends Component {
             </Menu.Menu>
           </Menu>
 
-          {/* <Grid.Column width={4} />
-          <Grid.Column width={8}>
-            <Form>
-              <Form.Group inline>
-                <Form.Checkbox
-                  inline
-                  label="Include completed?"
-                  toggle
-                  onChange={this.handleShowCompletedToggle}
-                />
-                <Form.Input
-                  icon="search"
-                  iconPosition="left"
-                  placeholder="Filter by name..."
-                  onChange={this.handleFilterByNameChange}
-                />
-              </Form.Group>
-            </Form>
-          </Grid.Column>
-          <Grid.Column width={4} /> */}
           <div className="table-container">
               <Table selectable sortable basic="very" className="tracker-table">
                 <Table.Header>
@@ -167,9 +147,7 @@ class TrackerDashboard extends Component {
                 </Table.Body>
               </Table>
           </div>
-          <div className="details-container">
-            <TrackerDetails/>
-          </div>
+          <TrackerDetails/>
         </div>
     );
   }
