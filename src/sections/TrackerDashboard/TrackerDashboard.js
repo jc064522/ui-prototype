@@ -98,20 +98,20 @@ class TrackerDashboard extends Component {
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell
-                      sorted={sortBy === sortByOptions.pipeline ? sortDirection : null}
-                      onClick={() => this.handleSort(sortByOptions.pipeline, sortBy, sortDirection)}
+                      sorted={sortBy === sortByOptions.Pipeline ? sortDirection : null}
+                      onClick={() => this.handleSort(sortByOptions.Pipeline, sortBy, sortDirection)}
                     >
                       Name
                     </Table.HeaderCell>
                     <Table.HeaderCell
-                      sorted={sortBy === sortByOptions.priority ? sortDirection : null}
-                      onClick={() => this.handleSort(sortByOptions.priority, sortBy, sortDirection)}
+                      sorted={sortBy === sortByOptions.Priority ? sortDirection : null}
+                      onClick={() => this.handleSort(sortByOptions.Priority, sortBy, sortDirection)}
                     >
                       Priority
                     </Table.HeaderCell>
                     <Table.HeaderCell
-                      sorted={sortBy === sortByOptions.progress ? sortDirection : null}
-                      onClick={() => this.handleSort(sortByOptions.progress, sortBy, sortDirection)}
+                      sorted={sortBy === sortByOptions.Progress ? sortDirection : null}
+                      onClick={() => this.handleSort(sortByOptions.Progress, sortBy, sortDirection)}
                     >
                       Progress
                     </Table.HeaderCell>
