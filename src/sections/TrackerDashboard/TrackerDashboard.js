@@ -71,6 +71,8 @@ class TrackerDashboard extends Component {
     // Set up hotkeys to move the selection up and down
     Mousetrap.bind('up', () => onMoveSelection('up'));
     Mousetrap.bind('down', () => onMoveSelection('down'));
+    Mousetrap.bind('esc', () => onHandleTrackerSelection(undefined));
+
 
     return (
       <div className="App">
