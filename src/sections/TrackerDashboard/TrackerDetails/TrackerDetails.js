@@ -22,6 +22,7 @@ import {
   Modal,
   Card,
   Divider,
+  Icon,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -33,12 +34,31 @@ class TrackerDetails extends Component {
     if (selectedTracker !== undefined) {
       return (
         <div className="details-container">
-          <Divider />
           <Table className="tracker-details-table">
             <Table.Body>
               <Table.Row className="tracker-row">
-                <Table.Cell className="name-column" textAlign="right" width={7}>
-                  <Header>{selectedTracker.pipelineName}</Header>
+                <Table.Cell width={1}>
+                  <Button
+                    icon
+                    basic
+                    color="green"
+                    onClick={() => onHandleTrackerSelection(undefined)}
+                  >
+                    <Icon name="close" />
+                  </Button>
+                </Table.Cell>
+                <Table.Cell width={1}>
+                  <Checkbox
+                    toggle
+                    checked={selectedTracker.enabled}
+                    onMouseDown={() =>
+                      onHandleEnableToggle(selectedTracker.filterId, selectedTracker.enabled)
+                    }
+                  />
+                </Table.Cell>
+
+                <Table.Cell className="name-column" textAlign="right" width={5}>
+                  <Header as="h3">{selectedTracker.pipelineName}</Header>
                 </Table.Cell>
                 <Table.Cell className="priority-column" textAlign="center" width={1}>
                   <Label circular color="green">
@@ -52,7 +72,7 @@ class TrackerDetails extends Component {
             </Table.Body>
           </Table>
 
-          <Grid centered divided columns={3}>
+          <Grid centered divided columns={3} className="details-grid">
             <Grid.Column textAlign="left" width={10}>
               {selectedTracker.filterXml}
             </Grid.Column>
@@ -101,18 +121,6 @@ class TrackerDetails extends Component {
               </List>
             </Grid.Column>
           </Grid>
-
-          <Checkbox
-            toggle
-            label="Enabled?"
-            checked={selectedTracker.enabled}
-            onMouseDown={() =>
-              onHandleEnableToggle(selectedTracker.filterId, selectedTracker.enabled)
-            }
-          />
-          <Button basic color="green" onClick={() => onHandleTrackerSelection(undefined)}>
-            DISMISS
-          </Button>
         </div>
       );
     }

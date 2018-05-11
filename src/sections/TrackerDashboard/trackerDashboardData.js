@@ -78,6 +78,7 @@ const initialState: TrackerState = {
   sortDirection: 'ascending',
   pageSize: 10,
   pageOffset: 0,
+  searchCriteria: '',
 };
 
 type UpdateTrackerAction = {
@@ -94,6 +95,7 @@ export const updateTrackerSelection = createAction('trackerDashboard_UPDATE_TRAC
 export const moveSelectionUp = createAction('MOVE_SELECTION_UP');
 export const moveSelectionDown = createAction('MOVE_SELECTION_DOWN');
 export const moveSelection = createAction('MOVE_SELECTION');
+export const updateSearchCriteria = createAction('UPDATE_SEARCH_CRITERIA');
 
 const reducers = handleActions(
   {
@@ -121,27 +123,26 @@ const reducers = handleActions(
       let nextSelectedId;
       if (currentIndex === -1) {
         // There's no selection so we'll leave the selection as undefined
+      } else if (action.payload.toLowerCase() === 'up') {
+        if (currentIndex === 0) {
+          nextSelectedId = state.trackers[currentIndex].filterId;
+        } else {
+          nextSelectedId = state.trackers[currentIndex - 1].filterId;
+        }
+      } else if (currentIndex === state.trackers.length - 1) {
+        nextSelectedId = state.trackers[currentIndex].filterId;
       } else {
-        if(action.payload.toLowerCase() === 'up'){
-          if (currentIndex === 0) {
-            nextSelectedId = state.trackers[currentIndex].filterId;
-          } else {
-            nextSelectedId = state.trackers[currentIndex -1].filterId;
-          }
-        }
-        else {
-          if (currentIndex === state.trackers.length - 1) {
-            nextSelectedId = state.trackers[currentIndex].filterId;
-          } else {
-            nextSelectedId = state.trackers[currentIndex + 1].filterId;
-          }
-        }
+        nextSelectedId = state.trackers[currentIndex + 1].filterId;
       }
       return {
         ...state,
         selectedTrackerId: nextSelectedId,
       };
     },
+    UPDATE_SEARCH_CRITERIA: (state, action) => ({
+      ...state,
+      searchCriteria: action.payload,
+    }),
   },
   initialState,
 );

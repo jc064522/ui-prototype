@@ -110,8 +110,8 @@
 }
 
 .tracker-details-table {
-    border: 0px !important;
-    padding-bottom: 10px !important;
+    border: 5px 0px 0px 0px !important;
+    padding: 10px !important;
 }
 
 .ui.active.progress .bar::after {
@@ -146,17 +146,22 @@ way to have the neat colourisation from 'indicating' without the 'active' class 
 }
 
 .tracker-dashboard .table-container.showing-details {
-    bottom: 350px;
+    bottom: 295px;
 }
 
 .tracker-dashboard .details-container {
+    border-top: solid 3px lightgray;
     overflow: hidden;
     width: 100%;
     position: absolute;
     bottom: 0px;
-    height: 350px;
+    height: 295px;
     left: 0px;
     right: 0px;
+}
+
+.tracker-dashboard .details-container .details-grid {
+    border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 .tracker-dashboard .details-container .card {

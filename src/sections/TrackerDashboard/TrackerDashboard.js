@@ -25,7 +25,7 @@ import moment from 'moment';
 import { Grid, Form, Label, Table, Progress, Dimmer, Loader, Button, Popup, Header, Checkbox, List, Segment, Modal, Card, Input, Menu } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection } from './trackerDashboardData';
+import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection, updateSearchCriteria } from './trackerDashboardData';
 
 import TrackerDetails from './TrackerDetails'
 import './TrackerDashboard.css';
@@ -63,7 +63,7 @@ class TrackerDashboard extends Component {
   render() {
     const { showCompleted } = this.state;
 
-    const { dimTable, trackers, onHandleSort, sortBy, sortDirection, onHandleEnableToggle, selectedTrackerId, onHandleTrackerSelection, onMoveSelection } = this.props;
+    const { dimTable, trackers, onHandleSort, sortBy, sortDirection, onHandleEnableToggle, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch } = this.props;
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
@@ -72,13 +72,21 @@ class TrackerDashboard extends Component {
     Mousetrap.bind('up', () => onMoveSelection('up'));
     Mousetrap.bind('down', () => onMoveSelection('down'));
     Mousetrap.bind('esc', () => onHandleTrackerSelection(undefined));
+    Mousetrap.bind('enter', () => onHandleSearch())
+    Mousetrap.bind('return', () => onHandleSearch())
 
 
     return (
         <div className="tracker-dashboard">
           <Menu attached='top'>
             <Menu.Menu position='left' className="search-container">
-              <Input fluid icon='search' placeholder='Search...' />
+              <Input 
+              fluid 
+              placeholder='Search...' 
+              value={searchCriteria} 
+              onChange={(event, data) => onHandleSearchChange(data)} 
+              onKeyPress={(event, data) => onHandleSearch(event, data)} 
+              action={<Button onClick={() => onHandleSearch()}>Search</Button >} />
             </Menu.Menu>
           </Menu>
 
@@ -130,7 +138,7 @@ class TrackerDashboard extends Component {
                     }) => (
 
                           <Table.Row key={filterId} className="tracker-row"  onClick={() => onHandleTrackerSelection(filterId)} active={selectedTrackerId === filterId}>
-                            <Table.Cell className="name-column" textAlign="right" width={7}>
+                            <Table.Cell className="name-column" textAlign="left" width={7}>
                               {pipelineName}
                             </Table.Cell>
                             <Table.Cell className="priority-column" textAlign="center" width={1}>
@@ -160,7 +168,9 @@ TrackerDashboard.contextTypes = {
 TrackerDashboard.propTypes = {
   onHandleSort: PropTypes.func.isRequired,
   onHandleEnableToggle: PropTypes.func.isRequired,
-  onMoveSelection: PropTypes.func.isRequired
+  onMoveSelection: PropTypes.func.isRequired,
+  onHandleSearchChange: PropTypes.func.isRequired,
+  onHandleSearch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -169,7 +179,8 @@ const mapStateToProps = state => ({
   showCompleted: state.trackerDashboard.showCompleted,
   sortBy: state.trackerDashboard.sortBy,
   sortDirection: state.trackerDashboard.sortDirection,
-  selectedTrackerId: state.trackerDashboard.selectedTrackerId
+  selectedTrackerId: state.trackerDashboard.selectedTrackerId,
+  searchCriteria: state.trackerDashboard.searchCriteria
 });
 
 const mapDispatchToProps = dispatch => {
@@ -184,7 +195,16 @@ const mapDispatchToProps = dispatch => {
     onHandleTrackerSelection: (filterId) => {
       dispatch(updateTrackerSelection(filterId))
     },
-    onMoveSelection: (direction) => {dispatch(moveSelection(direction))}
+    onMoveSelection: (direction) => {dispatch(moveSelection(direction))},
+    onHandleSearchChange: (data) => {
+      console.log(data)
+      dispatch(updateSearchCriteria(data.value))
+    },
+    onHandleSearch: (event) => {
+      if(event.key === 'Enter' || event === undefined){
+        dispatch(fetchTrackers())
+      }
+    }
   }
 };
 
