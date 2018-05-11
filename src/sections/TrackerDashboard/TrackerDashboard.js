@@ -82,7 +82,7 @@ class TrackerDashboard extends Component {
             </Menu.Menu>
           </Menu>
 
-          <div className="table-container">
+          <div className={"table-container" + (showDetails ? " showing-details" : "")}>
               <Table selectable sortable basic="very" className="tracker-table">
                 <Table.Header>
                   <Table.Row>

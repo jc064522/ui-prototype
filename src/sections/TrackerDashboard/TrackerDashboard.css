@@ -124,17 +124,39 @@ way to have the neat colourisation from 'indicating' without the 'active' class 
 
 .tracker-dashboard .search-container {
     width: 100% !important;
+    top: 0px;
+    left: 0px;
+    height: 45px;
+    right: 0px;
+    overflow: hidden;
+    position: absolute;
 }
 
 .tracker-dashboard .search-container .input {
     width: 100% !important;
 }
 
+.tracker-dashboard .table-container {
+    top: 45px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+    overflow: auto;
+}
+
+.tracker-dashboard .table-container.showing-details {
+    bottom: 350px;
+}
+
 .tracker-dashboard .details-container {
+    overflow: hidden;
     width: 100%;
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 0px;
+    height: 350px;
+    left: 0px;
+    right: 0px;
 }
 
 .tracker-dashboard .details-container .card {
