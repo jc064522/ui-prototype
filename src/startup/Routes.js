@@ -37,7 +37,6 @@ class Routes extends Component {
   render() {
     const { history } = this.props
     return (
-      <div>
         <Router history={history} basename={'/'}>
           <Switch>
             {/* Authentication routes */}
@@ -83,7 +82,6 @@ class Routes extends Component {
                    <Route component={PathNotFound} />
           </Switch>
         </Router>
-      </div>
     );
   }
 }

@@ -47,35 +47,12 @@
     }
 }
 
-/* .tracker-header {
-  background-color: aliceblue;
-  padding: 2px !important;
-} */
-
-/* .tracker-header .toggle {
-  padding-top:4px;
-} */
-
-/* .tracker-header h3 {
-  padding-top:3px;
-} */
-
-.details-accordion {
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-    padding-bottom: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
+.tracker-dashboard {
+    height: 100%;
 }
 
-.details-accordion-title {
-    margin: 0 auto;
-    width: 100px;
-    border: 1px solid lightgrey;
-    /* -webkit-box-shadow: 0 1px 2px #333; */
-    /* -moz-box-shadow: 0 1px 2px #333; */
-    /* box-shadow: 0 1px 2px #333; */
+#root {
+    height: 100%;
 }
 
 .ui.grid>.row {
@@ -135,20 +112,22 @@
     padding-bottom: 10px !important;
 }
 
-/* This disables 'active' animation. This is the point of the 'active' class but 
+.ui.active.progress .bar::after {
+    /* This disables 'active' animation. This is the point of the 'active' class but 
 unfortunately it's applied when the 'indicating' class is added and there's noo 
 way to have the neat colourisation from 'indicating' without the 'active' class also being applied. So we need to stomp on the annoying animation here. */
-
-.ui.active.progress .bar::after {
     -webkit-animation: none !important;
     animation: none !important;
 }
 
-.details-container {
-    position: relative;
+.tracker-dashboard .search-container {
+    width: 100% !important;
 }
 
-.details-content {
-    top: 50%;
-    transform: translateY(50%);
+.tracker-dashboard .search-container .input {
+    width: 100% !important;
 }
+
+/* .tracker-dashboard .details-container {
+    height: 442px;
+} */

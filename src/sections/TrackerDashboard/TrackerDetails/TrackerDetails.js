@@ -127,7 +127,7 @@ class TrackerDetails extends Component {
                   </Grid.Column>
                   <Grid.Column width={8}>
                     <Button basic color="green" onClick={() => onHandleTrackerSelection(undefined)}>
-                      OK
+                      DISMISS
                     </Button>
                   </Grid.Column>
                 </Grid>

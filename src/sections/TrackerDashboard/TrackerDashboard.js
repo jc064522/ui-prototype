@@ -22,7 +22,7 @@ import Mousetrap from 'mousetrap'
 
 import moment from 'moment';
 
-import { Grid, Form, Label, Table, Progress, Dimmer, Loader, Button, Popup, Header, Checkbox, List, Segment, Modal, Card } from 'semantic-ui-react';
+import { Grid, Form, Label, Table, Progress, Dimmer, Loader, Button, Popup, Header, Checkbox, List, Segment, Modal, Card, Input, Menu } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection } from './trackerDashboardData';
@@ -75,8 +75,13 @@ class TrackerDashboard extends Component {
 
 
     return (
-      <div className="App">
-        <Grid>
+        <div className="tracker-dashboard">
+          <Menu attached='top'>
+            <Menu.Menu position='left' className="search-container">
+              <Input fluid icon='search' placeholder='Search...' />
+            </Menu.Menu>
+          </Menu>
+
           {/* <Grid.Column width={4} />
           <Grid.Column width={8}>
             <Form>
@@ -97,8 +102,7 @@ class TrackerDashboard extends Component {
             </Form>
           </Grid.Column>
           <Grid.Column width={4} /> */}
-
-          <Grid.Column width={16}>
+          <div className="table-container">
               <Table selectable sortable basic="very" className="tracker-table">
                 <Table.Header>
                   <Table.Row>
@@ -162,12 +166,11 @@ class TrackerDashboard extends Component {
                     ))}
                 </Table.Body>
               </Table>
-          </Grid.Column>
-        </Grid>
-        <Segment>
-          <TrackerDetails/>
-        </Segment>
-      </div>
+          </div>
+          <div className="details-container">
+            <TrackerDetails/>
+          </div>
+        </div>
     );
   }
 }
