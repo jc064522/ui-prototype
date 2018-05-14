@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap'
 
-import { Label, Table, Progress, Button, Input, Menu } from 'semantic-ui-react';
+import { Label, Table, Progress, Button, Input, Menu, Pagination, Grid } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection, updateSearchCriteria } from './trackerDashboardData';
@@ -48,7 +48,7 @@ class TrackerDashboard extends Component {
   }
   
   render() {
-    const { trackers, sortBy, sortDirection, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch } = this.props;
+    const { trackers, sortBy, sortDirection, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch,pageOffset, pageSize, totalTrackers } = this.props;    
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
@@ -133,6 +133,9 @@ class TrackerDashboard extends Component {
                     ))}
                 </Table.Body>
               </Table>
+              <div className="pagination-container">
+                <Pagination activePage={pageOffset} totalPages={totalTrackers/pageSize} firstItem={null} lastItem={null} size='tiny'/>
+              </div>
           </div>
           <TrackerDetails/>
         </div>
@@ -159,7 +162,11 @@ const mapStateToProps = state => ({
   sortBy: state.trackerDashboard.sortBy,
   sortDirection: state.trackerDashboard.sortDirection,
   selectedTrackerId: state.trackerDashboard.selectedTrackerId,
-  searchCriteria: state.trackerDashboard.searchCriteria
+  searchCriteria: state.trackerDashboard.searchCriteria,
+  pageSize: state.trackerDashboard.pageSize,
+  pageOffset: state.trackerDashboard.pageOffset,
+  totalTrackers: state.trackerDashboard.totalTrackers,
+  numberOfPages: state.trackerDashboard.numberOfPages
 });
 
 const mapDispatchToProps = dispatch => {

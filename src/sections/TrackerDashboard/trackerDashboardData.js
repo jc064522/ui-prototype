@@ -74,7 +74,9 @@ type TrackerState = {
   +sortDirection: Direction,
   +pageSize: number,
   +pageOffset: number,
-  +searchCriteria: string
+  +searchCriteria: string,
+  totalTrackers: number,
+  numberOfPages: number
 };
 
 const initialState: TrackerState = {
@@ -86,6 +88,8 @@ const initialState: TrackerState = {
   pageSize: 10,
   pageOffset: 0,
   searchCriteria: 'is:incomplete ',
+  totalTrackers: 0,
+  numberOfPages: 0,
 };
 
 export const updateSort = createAction('trackerDashboard_UPDATE_SORT');
@@ -104,7 +108,12 @@ const reducers = handleActions(
       sortBy: action.payload.sortBy,
       sortDirection: action.payload.sortDirection,
     }),
-    trackerDashboard_UPDATE_TRACKERS: (state, action) => ({ ...state, trackers: action.payload }),
+    trackerDashboard_UPDATE_TRACKERS: (state, action) => ({
+      ...state,
+      trackers: action.payload.streamTasks,
+      totalTrackers: action.payload.totalStreamTasks,
+      numberOfPages: action.payload.totalStreamTasks / state.pageSize,
+    }),
     trackerDashboard_UPDATE_ENABLED: (state, action) => ({
       ...state,
       // TODO: use a filter then a map
@@ -154,7 +163,8 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
   const jwsToken = state.authentication.idToken;
 
   let url = `${state.config.streamTaskServiceUrl}/?`;
-  url += `offset=${state.trackerDashboard.pageOffset}`;
+  url += `pageSize=${state.trackerDashboard.pageSize}`;
+  url += `&offset=${state.trackerDashboard.pageOffset}`;
   url += `&sortBy=${state.trackerDashboard.sortBy}`;
   url += `&sortDirection=${state.trackerDashboard.sortDirection}`;
 
