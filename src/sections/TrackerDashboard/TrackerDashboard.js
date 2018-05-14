@@ -17,12 +17,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Mousetrap from 'mousetrap'
 
-import moment from 'moment';
-
-import { Grid, Form, Label, Table, Progress, Dimmer, Loader, Button, Popup, Header, Checkbox, List, Segment, Modal, Card, Input, Menu } from 'semantic-ui-react';
+import { Label, Table, Progress, Button, Input, Menu } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection, updateSearchCriteria } from './trackerDashboardData';
@@ -35,16 +32,6 @@ class TrackerDashboard extends Component {
   componentDidMount() {
     this.context.store.dispatch(fetchTrackers())
   }
-
-  // Set up some defaults
-  state = {
-    showCompleted: false
-  };
-
-  handleShowCompletedToggle = (e, toggleProps) => {
-    //TODO: dispatch fetch trackers with showCompleted
-    this.setState({ showCompleted: toggleProps.checked });
-  };
 
   handleSort(newSortBy, currentSortBy, currentDirection) {
     if(currentSortBy === newSortBy){
@@ -61,9 +48,7 @@ class TrackerDashboard extends Component {
   }
   
   render() {
-    const { showCompleted } = this.state;
-
-    const { dimTable, trackers, onHandleSort, sortBy, sortDirection, onHandleEnableToggle, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch } = this.props;
+    const { trackers, sortBy, sortDirection, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch } = this.props;
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
