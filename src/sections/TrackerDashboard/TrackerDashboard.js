@@ -48,7 +48,7 @@ class TrackerDashboard extends Component {
   }
   
   render() {
-    const { trackers, sortBy, sortDirection, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch,pageOffset, pageSize, totalTrackers } = this.props;    
+    const { trackers, sortBy, sortDirection, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch,pageOffset, pageSize, totalTrackers, numberOfPages } = this.props;    
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
@@ -79,7 +79,7 @@ class TrackerDashboard extends Component {
           </Menu>
 
           <div className={"table-container" + (showDetails ? " showing-details" : "")}>
-              <Table selectable sortable basic="very" className="tracker-table">
+              <Table selectable sortable basic="very" className="tracker-table" columns={15}>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell
@@ -125,7 +125,7 @@ class TrackerDashboard extends Component {
                                 {priority}
                               </Label>
                             </Table.Cell>
-                            <Table.Cell className="progress-column" width={8}>
+                            <Table.Cell className="progress-column" width={7}>
                               <Progress indicating percent={trackerPercent}  />
                             </Table.Cell>
                           </Table.Row>
@@ -134,7 +134,7 @@ class TrackerDashboard extends Component {
                 </Table.Body>
               </Table>
               <div className="pagination-container">
-                <Pagination activePage={pageOffset} totalPages={totalTrackers/pageSize} firstItem={null} lastItem={null} size='tiny'/>
+                <Pagination activePage={pageOffset + 1} totalPages={numberOfPages} firstItem={null} lastItem={null} size='tiny'/>
               </div>
           </div>
           <TrackerDetails/>
