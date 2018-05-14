@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
@@ -7,21 +6,14 @@ import moment from 'moment';
 
 import {
   Grid,
-  Form,
   Label,
   Table,
   Progress,
-  Dimmer,
-  Loader,
   Button,
-  Popup,
   Header,
   Checkbox,
   List,
-  Segment,
-  Modal,
   Card,
-  Divider,
   Icon,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';

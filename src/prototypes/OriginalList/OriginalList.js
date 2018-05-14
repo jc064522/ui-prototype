@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-import React, { Component } from 'react'
-import moment from 'moment'
-import './OriginalList.css'
-import {
-  Grid,
-  Segment,
-  Form
-} from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.min.css'
+import React, { Component } from 'react';
+import moment from 'moment';
+import './OriginalList.css';
+import { Grid, Segment, Form } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 
-import 'react-datepicker/dist/react-datepicker.css'
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'
-import TrackerSummary from './components/TrackerSummary'
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import TrackerSummary from './components/TrackerSummary';
 
-import Header from 'prototypes/Header'
+import Header from 'prototypes/Header';
 
 const dummyTrackers = [
   {
@@ -40,7 +36,7 @@ const dummyTrackers = [
     lastPollAge: 6.1,
     completed: false,
     enabled: true,
-    priority: 5
+    priority: 5,
   },
   {
     name: 'FANTASTIC_PIPELINE_2',
@@ -51,7 +47,7 @@ const dummyTrackers = [
     lastPollAge: 1,
     completed: false,
     enabled: true,
-    priority: 10
+    priority: 10,
   },
   {
     name: 'FANTASTIC_PIPELINE_3',
@@ -62,46 +58,46 @@ const dummyTrackers = [
     lastPollAge: 300,
     completed: true,
     enabled: false,
-    priority: 10
-  }
-]
+    priority: 10,
+  },
+];
 
 const sortOptions = [
   { key: 'trackerMs', value: 'trackerMs', text: 'Created tasks up to' },
   {
     key: 'trackerPercentage',
     value: 'trackerPercentage',
-    text: 'Percentage complete'
+    text: 'Percentage complete',
   },
-  { key: 'lastPollAge', value: 'lastPollAge', text: 'Last polled' }
-]
+  { key: 'lastPollAge', value: 'lastPollAge', text: 'Last polled' },
+];
 
 const sortDirectionOptions = [
   { key: 'asc', value: 'asc', text: 'Ascending' },
-  { key: 'desc', value: 'desc', text: 'Descending' }
-]
+  { key: 'desc', value: 'desc', text: 'Descending' },
+];
 
 class OriginalList extends Component {
   // Set up some defaults
   state = { showCompleted: false, orderBy: 'trackerMs', sortDirection: 'desc' };
 
   handleShowCompletedToggle = (e, toggleProps) => {
-    this.setState({ showCompleted: toggleProps.checked })
+    this.setState({ showCompleted: toggleProps.checked });
   };
 
   handleSortChange = (e, orderDropdownProps) => {
-    this.setState({ orderBy: orderDropdownProps.value })
+    this.setState({ orderBy: orderDropdownProps.value });
   };
 
   handleSortDirectionChange = (e, sortDirectionDropdownProps) => {
-    this.setState({ sortDirection: sortDirectionDropdownProps.value })
+    this.setState({ sortDirection: sortDirectionDropdownProps.value });
   };
 
-  render () {
-    const trackers = dummyTrackers
-    const { showCompleted, orderBy, sortDirection } = this.state
+  render() {
+    const trackers = dummyTrackers;
+    const { showCompleted, orderBy, sortDirection } = this.state;
     return (
-      <div className='App'>
+      <div className="App">
         <Grid>
           <Header />
 
@@ -111,14 +107,14 @@ class OriginalList extends Component {
               <Form.Group inline>
                 <Form.Checkbox
                   inline
-                  label='Show completed?'
+                  label="Show completed?"
                   toggle
                   onChange={this.handleShowCompletedToggle}
                 />
                 <Form.Dropdown
                   inline
                   compact
-                  label='Sort by'
+                  label="Sort by"
                   labeled
                   options={sortOptions}
                   value={orderBy}
@@ -127,7 +123,7 @@ class OriginalList extends Component {
                 <Form.Dropdown
                   inline
                   compact
-                  label='Sort direction'
+                  label="Sort direction"
                   labeled
                   options={sortDirectionOptions}
                   value={sortDirection}
@@ -138,47 +134,37 @@ class OriginalList extends Component {
           </Grid.Column>
           <Grid.Column width={4} />
           <Grid.Column width={16}>
-            <Segment.Group className='trackers-container' size='mini'>
+            <Segment.Group className="trackers-container" size="mini">
               {trackers
-                .filter(
-                  tracker =>
-                    tracker.completed === showCompleted || !tracker.completed
-                )
+                .filter(tracker => tracker.completed === showCompleted || !tracker.completed)
                 .sort((tracker1, tracker2) => {
                   if (orderBy === 'trackerMs') {
                     if (sortDirection === 'asc') {
-                      return tracker1.trackerMs > tracker2.trackerMs
-                    } else {
-                      return tracker1.trackerMs < tracker2.trackerMs
+                      return tracker1.trackerMs > tracker2.trackerMs;
                     }
+                      return tracker1.trackerMs < tracker2.trackerMs;
                   } else if (orderBy === 'trackerPercentage') {
                     if (sortDirection === 'asc') {
-                      return (
-                        tracker1.trackerPercentage > tracker2.trackerPercentage
-                      )
-                    } else {
-                      return (
-                        tracker1.trackerPercentage < tracker2.trackerPercentage
-                      )
+                      return tracker1.trackerPercentage > tracker2.trackerPercentage;
                     }
+                      return tracker1.trackerPercentage < tracker2.trackerPercentage;
                   } else if (orderBy === 'lastPollAge') {
                     if (sortDirection === 'asc') {
-                      return tracker1.lastPollAge > tracker2.lastPollAge
-                    } else {
-                      return tracker1.lastPollAge < tracker2.lastPollAge
+                      return tracker1.lastPollAge > tracker2.lastPollAge;
                     }
+                      return tracker1.lastPollAge < tracker2.lastPollAge;
                   }
+                  return undefined;
                 })
-                .map((tracker, i) => {
+                .map((tracker, i) =>
                   // return (<h1>not working</h1>)
-                  return <TrackerSummary tracker={tracker} key={i} />
-                })}
+                  <TrackerSummary tracker={tracker} key={i} />)}
             </Segment.Group>
           </Grid.Column>
         </Grid>
       </div>
-    )
+    );
   }
 }
 
-export default OriginalList
+export default OriginalList;

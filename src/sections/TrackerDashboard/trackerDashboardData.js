@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createAction, createActions, handleActions } from 'redux-actions';
+import { createAction, handleActions } from 'redux-actions';
 
 import { push } from 'react-router-redux';
 
@@ -30,11 +30,19 @@ declare type AuthenticationState = {
 declare type ConfigState = {
   streamTaskServiceUrl: string
 };
+export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS';
+
+type UpdateTrackerAction = {
+  type: typeof UPDATE_TRACKERS,
+  trackers: Array<Tracker>
+};
+
+type Action = UpdateTrackerAction;
 
 // These are common to all thunks --TODO move it
 type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
-type GetState = () => StateRoot;
 type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+type GetState = () => StateRoot;
 type PromiseAction = Promise<Action>;
 
 // This is common to all reducers --TODO move it
@@ -43,8 +51,6 @@ declare type StateRoot = {
   authentication: AuthenticationState,
   config: ConfigState
 };
-
-export const UPDATE_TRACKERS: string = 'trackerDashboard/UPDATE_TRACKERS';
 
 const fetch = window.fetch;
 
@@ -81,13 +87,6 @@ const initialState: TrackerState = {
   pageOffset: 0,
   searchCriteria: 'is:incomplete ',
 };
-
-type UpdateTrackerAction = {
-  type: typeof UPDATE_TRACKERS,
-  trackers: Array<Tracker>
-};
-
-type Action = UpdateTrackerAction;
 
 export const updateSort = createAction('trackerDashboard_UPDATE_SORT');
 export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS');
@@ -189,7 +188,7 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
     });
 };
 
-export const enableToggle = (filterId: String, isCurrentlyEnabled: boolean): ThunkAction => (
+export const enableToggle = (filterId: string, isCurrentlyEnabled: boolean): ThunkAction => (
   dispatch,
   getState,
 ) => {

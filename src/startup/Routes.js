@@ -16,7 +16,7 @@
 
 import React, { Component } from 'react';
 import PropTypes, { object } from 'prop-types';
-import { BrowserRouter, Route, Router, Switch, withRouter } from 'react-router-dom';
+import { Route, Router, Switch, withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

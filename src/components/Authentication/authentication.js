@@ -19,7 +19,7 @@ import uuidv4 from 'uuid/v4';
 import sjcl from 'sjcl';
 import { push } from 'react-router-redux';
 
-import { hasAppPermission } from './authorisation';
+// import { hasAppPermission } from './authorisation';
 
 export const TOKEN_ID_CHANGE = 'authentication/TOKEN_ID_CHANGE';
 
@@ -100,7 +100,7 @@ export const handleAuthenticationResponse = (
       const nonceHash = sjcl.codec.hex.fromBits(nonceHashBytes);
       const returnedNonce = decodedToken.nonce;
       const referrer = localStorage.getItem('preAuthenticationRequestReferrer');
-      const appPermission = localStorage.getItem('appPermission');
+      // const appPermission = localStorage.getItem('appPermission');
 
       if (nonceHash === returnedNonce) {
         localStorage.removeItem('nonce');
