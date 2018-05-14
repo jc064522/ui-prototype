@@ -79,7 +79,7 @@ const initialState: TrackerState = {
   sortDirection: 'ascending',
   pageSize: 10,
   pageOffset: 0,
-  searchCriteria: '',
+  searchCriteria: 'is:incomplete ',
 };
 
 type UpdateTrackerAction = {

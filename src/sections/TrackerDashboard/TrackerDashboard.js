@@ -120,15 +120,6 @@ class TrackerDashboard extends Component {
 
                 <Table.Body>
                   {trackers
-                    .filter((tracker) => {
-                      if (showCompleted) {
-                        return true;
-                      }
-                      else{
-                        const isCompleted = tracker.status === 'Complete'
-                        return !isCompleted;
-                      }
-                    })
                     .map(({ 
                       // Core properties
                       pipelineName, priority, trackerPercent, filterId,
