@@ -36,6 +36,8 @@ class TrackerDashboard extends Component {
     // trackers. The fetch trackers function will only fetch trackers that fit
     // in the viewport, which means the view will update to fit.
     window.addEventListener('resize', (event) => {
+      // Resizing the window is another time when paging gets reset.
+      this.context.store.dispatch(actionCreators.resetPaging())
       this.context.store.dispatch(fetchTrackers())
     });
   }
