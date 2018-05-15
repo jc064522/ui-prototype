@@ -56,7 +56,7 @@ class TrackerDashboard extends Component {
   
   render() {
     const { trackers, sortBy, sortDirection, selectedTrackerId, searchCriteria, pageOffset, pageSize, totalTrackers, numberOfPages } = this.props;
-    const { onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, onHandleSearch, onHandlePageChange } = this.props;    
+    const { onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, onHandleSearch, onHandlePageChange, onHandlePageRight, onHandlePageLeft } = this.props;    
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
@@ -64,6 +64,8 @@ class TrackerDashboard extends Component {
     // Set up hotkeys to move the selection up and down
     Mousetrap.bind('up', () => onMoveSelection('up'));
     Mousetrap.bind('down', () => onMoveSelection('down'));
+    Mousetrap.bind('right', () => onHandlePageRight());
+    Mousetrap.bind('left', () => onHandlePageLeft());
     Mousetrap.bind('esc', () => onHandleTrackerSelection(undefined));
     Mousetrap.bind('ctrl+shift+f', () => this.searchInputRef.focus())
     Mousetrap.bind('enter', () => onHandleSearch())
@@ -210,6 +212,14 @@ const mapDispatchToProps = dispatch => {
     },
     onHandlePageChange: (data) => {
       dispatch(actionCreators.changePage(data.activePage - 1))
+      dispatch(fetchTrackers())
+    },
+    onHandlePageRight: () => { 
+      dispatch(actionCreators.pageRight())
+      dispatch(fetchTrackers())
+    },
+    onHandlePageLeft: () => { 
+      dispatch(actionCreators.pageLeft())
       dispatch(fetchTrackers())
     }
   }

@@ -104,6 +104,8 @@ export const actionCreators = createActions({
   CHANGE_PAGE: page => ({ page }),
   UPDATE_PAGE_SIZE: pageSize => ({ pageSize }),
   RESET_PAGING: () => ({}),
+  PAGE_RIGHT: () => ({}),
+  PAGE_LEFT: () => ({}),
 });
 
 const reducers = handleActions(
@@ -167,6 +169,26 @@ const reducers = handleActions(
       pageOffset: initialState.pageOffset,
       // This does not reset pageSize because that is managed to be the size of the viewport
     }),
+    PAGE_RIGHT: (state, action) => {
+      // We don't want to page further than is possible
+      const currentPageOffset = state.pageOffset;
+      const numberOfPages = state.numberOfPages - 1;
+      const newPageOffset =
+        currentPageOffset < numberOfPages ? currentPageOffset + 1 : numberOfPages;
+      return {
+        ...state,
+        pageOffset: newPageOffset,
+      };
+    },
+    PAGE_LEFT: (state, action) => {
+      // We don't want to page further than is possible
+      const currentPageOffset = state.pageOffset;
+      const newPageOffset = currentPageOffset > 0 ? currentPageOffset - 1 : 0;
+      return {
+        ...state,
+        pageOffset: newPageOffset,
+      };
+    },
   },
   initialState,
 );
