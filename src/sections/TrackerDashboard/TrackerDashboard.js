@@ -98,7 +98,7 @@ class TrackerDashboard extends Component {
                       sorted={sortBy === sortByOptions.Pipeline ? sortDirection : null}
                       onClick={() => this.handleSort(sortByOptions.Pipeline, sortBy, sortDirection)}
                     >
-                      Name
+                      Pipeline name
                     </Table.HeaderCell>
                     <Table.HeaderCell
                       sorted={sortBy === sortByOptions.Priority ? sortDirection : null}
