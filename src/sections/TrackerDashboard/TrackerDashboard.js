@@ -79,7 +79,7 @@ class TrackerDashboard extends Component {
             </Menu.Menu>
           </Menu>
 
-          <div className={"table-container" + (showDetails ? " showing-details" : "")}>
+          <div id="table-container" className={"table-container" + (showDetails ? " showing-details" : "")}>
               <Table selectable sortable basic="very" className="tracker-table" columns={15}>
                 <Table.Header>
                   <Table.Row>
@@ -191,6 +191,7 @@ const mapDispatchToProps = dispatch => {
     },
     onMoveSelection: (direction) => {dispatch(actionCreators.moveSelection(direction))},
     onHandleSearchChange: (data) => {
+      dispatch(actionCreators.resetPaging())
       dispatch(actionCreators.updateSearchCriteria(data.value))
       // This line enables search as you type. Whether we want it or not depends on performance
       dispatch(fetchTrackers())

@@ -76,7 +76,8 @@ type TrackerState = {
   +pageOffset: number,
   +searchCriteria: string,
   totalTrackers: number,
-  numberOfPages: number
+  numberOfPages: number,
+  selectedTrackerId: number
 };
 
 const initialState: TrackerState = {
@@ -90,6 +91,7 @@ const initialState: TrackerState = {
   searchCriteria: 'is:incomplete ',
   totalTrackers: 0,
   numberOfPages: 0,
+  selectedTrackerId: undefined,
 };
 
 export const actionCreators = createActions({
@@ -100,6 +102,8 @@ export const actionCreators = createActions({
   UPDATE_TRACKER_SELECTION: filterId => ({ filterId }),
   UPDATE_SEARCH_CRITERIA: searchCriteria => ({ searchCriteria }),
   CHANGE_PAGE: page => ({ page }),
+  UPDATE_PAGE_SIZE: pageSize => ({ pageSize }),
+  RESET_PAGING: () => ({}),
 });
 
 const reducers = handleActions(
@@ -157,6 +161,12 @@ const reducers = handleActions(
       ...state,
       pageOffset: action.payload.page,
     }),
+    UPDATE_PAGE_SIZE: (state, action) => ({ ...state, pageSize: action.payload.pageSize }),
+    RESET_PAGING: (state, action) => ({
+      ...state,
+      pageOffset: initialState.pageOffset,
+      // This does not reset pageSize because that is managed to be the size of the viewport
+    }),
   },
   initialState,
 );
@@ -167,8 +177,11 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
   const state = getState();
   const jwsToken = state.authentication.idToken;
 
+  const rowsToFetch = getRowsPerPage(state.trackerDashboard.selectedTrackerId != undefined);
+  dispatch(actionCreators.updatePageSize(rowsToFetch));
+
   let url = `${state.config.streamTaskServiceUrl}/?`;
-  url += `pageSize=${state.trackerDashboard.pageSize}`;
+  url += `pageSize=${rowsToFetch}`;
   url += `&offset=${state.trackerDashboard.pageOffset}`;
   url += `&sortBy=${state.trackerDashboard.sortBy}`;
   url += `&sortDirection=${state.trackerDashboard.sortDirection}`;
@@ -239,3 +252,28 @@ function handleStatus(response) {
   }
   return Promise.reject(new HttpError(response.status, response.statusText));
 }
+
+export const getRowsPerPage = (isDetailsVisible: boolean) => {
+  const viewport = document.getElementById('table-container');
+  let rowsInViewport = 20; // Fallback default
+  const headerHeight = 46;
+  const footerHeight = 36;
+  const detailsHeight = 295;
+  const rowHeight = 30;
+  if (viewport) {
+    const viewportHeight = viewport.offsetHeight;
+    const heightAvailableForRows = viewportHeight - headerHeight - footerHeight;
+    // if (isDetailsVisible) {
+    // heightAvailableForRows -= detailsHeight;
+    // }
+    rowsInViewport = Math.floor(heightAvailableForRows / rowHeight);
+  }
+
+  // Make sure we always request at least 1 row, even if the viewport is too small
+  // to display it without scrolling. Anything less will be rejected by the
+  // service for being rediculous.
+  if (rowsInViewport <= 0) {
+    return 1;
+  }
+  return rowsInViewport;
+};
