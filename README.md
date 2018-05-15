@@ -1,3 +1,7 @@
+## Moved!
+
+This project now lives in https://github.com/gchq/stroom, in the stroom-ui folder. This folder may not be in master yet.
+
 # ui-prototype
 
 ## Formatting and linting
