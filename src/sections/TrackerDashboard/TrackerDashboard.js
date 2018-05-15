@@ -31,6 +31,13 @@ class TrackerDashboard extends Component {
 
   componentDidMount() {
     this.context.store.dispatch(fetchTrackers())
+
+    // This component monitors window size. For every change it will fetch the
+    // trackers. The fetch trackers function will only fetch trackers that fit
+    // in the viewport, which means the view will update to fit.
+    window.addEventListener('resize', (event) => {
+      this.context.store.dispatch(fetchTrackers())
+    });
   }
 
   handleSort(newSortBy, currentSortBy, currentDirection) {
