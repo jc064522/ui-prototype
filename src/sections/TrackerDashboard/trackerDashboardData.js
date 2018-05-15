@@ -155,10 +155,17 @@ const reducers = handleActions(
         selectedTrackerId: nextSelectedId,
       };
     },
-    UPDATE_SEARCH_CRITERIA: (state, action) => ({
-      ...state,
-      searchCriteria: action.payload.searchCriteria,
-    }),
+    UPDATE_SEARCH_CRITERIA: (state, action) => {
+      let sortBy = state.sortBy;
+      if (action.payload.searchCriteria.includes('sort:next')) {
+        sortBy = undefined;
+      }
+      return {
+        ...state,
+        searchCriteria: action.payload.searchCriteria,
+        sortBy,
+      };
+    },
     CHANGE_PAGE: (state, action) => ({
       ...state,
       pageOffset: action.payload.page,
@@ -205,8 +212,10 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
   let url = `${state.config.streamTaskServiceUrl}/?`;
   url += `pageSize=${rowsToFetch}`;
   url += `&offset=${state.trackerDashboard.pageOffset}`;
-  url += `&sortBy=${state.trackerDashboard.sortBy}`;
-  url += `&sortDirection=${state.trackerDashboard.sortDirection}`;
+  if (state.trackerDashboard.sortBy != undefined) {
+    url += `&sortBy=${state.trackerDashboard.sortBy}`;
+    url += `&sortDirection=${state.trackerDashboard.sortDirection}`;
+  }
 
   if (
     state.trackerDashboard.searchCriteria !== '' &&
