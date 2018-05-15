@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createAction, handleActions } from 'redux-actions';
+import { createAction, createActions, handleActions } from 'redux-actions';
 
 import { push } from 'react-router-redux';
 
@@ -92,29 +92,30 @@ const initialState: TrackerState = {
   numberOfPages: 0,
 };
 
-export const updateSort = createAction('trackerDashboard_UPDATE_SORT');
-export const updateTrackers = createAction('trackerDashboard_UPDATE_TRACKERS');
-export const updateEnabled = createAction('trackerDashboard_UPDATE_ENABLED');
-export const updateTrackerSelection = createAction('trackerDashboard_UPDATE_TRACKER_SELECTION');
-export const moveSelectionUp = createAction('MOVE_SELECTION_UP');
-export const moveSelectionDown = createAction('MOVE_SELECTION_DOWN');
-export const moveSelection = createAction('MOVE_SELECTION');
-export const updateSearchCriteria = createAction('UPDATE_SEARCH_CRITERIA');
+export const actionCreators = createActions({
+  UPDATE_SORT: (sortBy, sortDirection) => ({ sortBy, sortDirection }),
+  UPDATE_TRACKERS: (streamTasks, totalStreamTasks) => ({ streamTasks, totalStreamTasks }),
+  MOVE_SELECTION: direction => ({ direction }),
+  UPDATE_ENABLED: (filterId, enabled) => ({ filterId, enabled }),
+  UPDATE_TRACKER_SELECTION: filterId => ({ filterId }),
+  UPDATE_SEARCH_CRITERIA: searchCriteria => ({ searchCriteria }),
+  CHANGE_PAGE: page => ({ page }),
+});
 
 const reducers = handleActions(
   {
-    trackerDashboard_UPDATE_SORT: (state, action) => ({
+    UPDATE_SORT: (state, action) => ({
       ...state,
       sortBy: action.payload.sortBy,
       sortDirection: action.payload.sortDirection,
     }),
-    trackerDashboard_UPDATE_TRACKERS: (state, action) => ({
+    UPDATE_TRACKERS: (state, action) => ({
       ...state,
       trackers: action.payload.streamTasks,
       totalTrackers: action.payload.totalStreamTasks,
-      numberOfPages: action.payload.totalStreamTasks / state.pageSize,
+      numberOfPages: Math.ceil(action.payload.totalStreamTasks / state.pageSize),
     }),
-    trackerDashboard_UPDATE_ENABLED: (state, action) => ({
+    UPDATE_ENABLED: (state, action) => ({
       ...state,
       // TODO: use a filter then a map
       trackers: state.trackers.map((tracker, i) =>
@@ -122,9 +123,9 @@ const reducers = handleActions(
           ? { ...tracker, enabled: action.payload.enabled }
           : tracker)),
     }),
-    trackerDashboard_UPDATE_TRACKER_SELECTION: (state, action) => ({
+    UPDATE_TRACKER_SELECTION: (state, action) => ({
       ...state,
-      selectedTrackerId: action.payload,
+      selectedTrackerId: action.payload.filterId,
     }),
     MOVE_SELECTION: (state, action) => {
       const currentIndex = state.trackers.findIndex(tracker => tracker.filterId === state.selectedTrackerId);
@@ -132,7 +133,7 @@ const reducers = handleActions(
       let nextSelectedId;
       if (currentIndex === -1) {
         // There's no selection so we'll leave the selection as undefined
-      } else if (action.payload.toLowerCase() === 'up') {
+      } else if (action.payload.direction.toLowerCase() === 'up') {
         if (currentIndex === 0) {
           nextSelectedId = state.trackers[currentIndex].filterId;
         } else {
@@ -150,7 +151,11 @@ const reducers = handleActions(
     },
     UPDATE_SEARCH_CRITERIA: (state, action) => ({
       ...state,
-      searchCriteria: action.payload,
+      searchCriteria: action.payload.searchCriteria,
+    }),
+    CHANGE_PAGE: (state, action) => ({
+      ...state,
+      pageOffset: action.payload.page,
     }),
   },
   initialState,
@@ -187,7 +192,7 @@ export const fetchTrackers = (): ThunkAction => (dispatch, getState) => {
     .then(handleStatus)
     .then(response => response.json())
     .then((trackers) => {
-      dispatch(updateTrackers(trackers));
+      dispatch(actionCreators.updateTrackers(trackers.streamTasks, trackers.totalStreamTasks));
     })
     .catch((error) => {
       // TODO: handle a bad response from the service, i.e. send the use to an error
@@ -218,7 +223,7 @@ export const enableToggle = (filterId: string, isCurrentlyEnabled: boolean): Thu
   })
     .then(handleStatus)
     .then((response) => {
-      dispatch(updateEnabled({ filterId, enabled: !isCurrentlyEnabled }));
+      dispatch(actionCreators.updateEnabled(filterId, !isCurrentlyEnabled));
     })
     .catch((error) => {
       dispatch(push('/error'));

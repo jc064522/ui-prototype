@@ -18,7 +18,7 @@ import {
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { enableToggle, updateTrackerSelection } from '../trackerDashboardData';
+import { enableToggle, actionCreators } from '../trackerDashboardData';
 
 class TrackerDetails extends Component {
   truncate(text, limit) {
@@ -142,7 +142,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(enableToggle(filterId, isCurrentlyEnabled));
   },
   onHandleTrackerSelection: (filterId) => {
-    dispatch(updateTrackerSelection(filterId));
+    dispatch(actionCreators.updateTrackerSelection(filterId));
   },
 });
 

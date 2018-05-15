@@ -22,7 +22,7 @@ import Mousetrap from 'mousetrap'
 import { Label, Table, Progress, Button, Input, Menu, Pagination, Grid } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { fetchTrackers, updateSort, sortByOptions, directions, enableToggle, updateTrackerSelection, moveSelection, updateSearchCriteria } from './trackerDashboardData';
+import { fetchTrackers, sortByOptions, directions, enableToggle, updateTrackerSelection, updateSearchCriteria, changePage, actionCreators } from './trackerDashboardData';
 
 import TrackerDetails from './TrackerDetails'
 import './TrackerDashboard.css';
@@ -48,7 +48,8 @@ class TrackerDashboard extends Component {
   }
   
   render() {
-    const { trackers, sortBy, sortDirection, selectedTrackerId, onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, searchCriteria, onHandleSearch,pageOffset, pageSize, totalTrackers, numberOfPages } = this.props;    
+    const { trackers, sortBy, sortDirection, selectedTrackerId, searchCriteria, pageOffset, pageSize, totalTrackers, numberOfPages } = this.props;
+    const { onHandleTrackerSelection, onMoveSelection, onHandleSearchChange, onHandleSearch, onHandlePageChange } = this.props;    
 
     const selectedTracker = trackers.find(tracker => tracker.filterId === selectedTrackerId)
     const showDetails = selectedTracker !== undefined
@@ -134,7 +135,13 @@ class TrackerDashboard extends Component {
                 </Table.Body>
               </Table>
               <div className="pagination-container">
-                <Pagination activePage={pageOffset + 1} totalPages={numberOfPages} firstItem={null} lastItem={null} size='tiny'/>
+                <Pagination 
+                activePage={pageOffset + 1} 
+                totalPages={numberOfPages} 
+                firstItem={null} 
+                lastItem={null} 
+                size='tiny'
+                onPageChange={(event, data) => onHandlePageChange(data)}/>
               </div>
           </div>
           <TrackerDetails/>
@@ -152,7 +159,8 @@ TrackerDashboard.propTypes = {
   onHandleEnableToggle: PropTypes.func.isRequired,
   onMoveSelection: PropTypes.func.isRequired,
   onHandleSearchChange: PropTypes.func.isRequired,
-  onHandleSearch: PropTypes.func.isRequired
+  onHandleSearch: PropTypes.func.isRequired,
+  onHandlePageChange: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -172,18 +180,18 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     onHandleSort: (sortBy, sortDirection) => {
-      dispatch(updateSort({sortBy, sortDirection}))
+      dispatch(actionCreators.updateSort(sortBy, sortDirection))
       dispatch(fetchTrackers())
     },
     onHandleEnableToggle: (filterId, isCurrentlyEnabled) => {
       dispatch(enableToggle(filterId, isCurrentlyEnabled))
     },
     onHandleTrackerSelection: (filterId) => {
-      dispatch(updateTrackerSelection(filterId))
+      dispatch(actionCreators.updateTrackerSelection(filterId))
     },
-    onMoveSelection: (direction) => {dispatch(moveSelection(direction))},
+    onMoveSelection: (direction) => {dispatch(actionCreators.moveSelection(direction))},
     onHandleSearchChange: (data) => {
-      dispatch(updateSearchCriteria(data.value))
+      dispatch(actionCreators.updateSearchCriteria(data.value))
       // This line enables search as you type. Whether we want it or not depends on performance
       dispatch(fetchTrackers())
     },
@@ -191,6 +199,10 @@ const mapDispatchToProps = dispatch => {
       if(event === undefined || event.key === 'Enter'){
         dispatch(fetchTrackers())
       }
+    },
+    onHandlePageChange: (data) => {
+      dispatch(actionCreators.changePage(data.activePage - 1))
+      dispatch(fetchTrackers())
     }
   }
 };
